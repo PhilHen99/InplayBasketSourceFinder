@@ -3,246 +3,126 @@ import pandas as pd
 import json
 import os
 import folium
+import logging
+from datetime import datetime, timedelta
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
+from typing import Optional
+
+# Import our new modules
+from config import config, load_country_coordinates
+from services.data_integration import DataIntegrationService
+
+# Configure logging
+logging.basicConfig(
+    level=getattr(logging, config.log_level),
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.secret_key = 'basketball_dashboard_secret_key'  # Required for flash messages
+app.secret_key = config.secret_key
 Bootstrap(app)
 
-# Upload configuration
+# Upload configuration (fallback for local files)
 UPLOAD_FOLDER = '.'
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Initialize services
+data_service = DataIntegrationService()
+
+# Global data storage
+teams_data: Optional[pd.DataFrame] = None
+countries = []
+leagues = []
+sports = []
+country_coordinates = {}
+last_data_refresh = None
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Load the Excel data into a dataframe qwith pandas
 def load_data():
+    """Load basketball teams data from configured source"""
+    global teams_data, countries, leagues, sports, last_data_refresh
+    
+    try:
+        if config.database.provider == 'local':
+            # Load from local Excel file (fallback)
     df = pd.read_excel("Basketball Sources Links.xlsx")
-    #this cleans the data - replaces NaN with empty strings
+        else:
+            # Load from cloud provider
+            df = data_service.fetch_excel_data(
+                config.database.provider, 
+                config.database.config
+            )
+        
+        # Clean the data
     df = df.fillna('')
-    return df
+        teams_data = df
 
-# map data store
-teams_data = load_data()
+        # Update global filter options
 countries = sorted(teams_data['Country'].unique())
 leagues = sorted(teams_data['League'].unique())
 sports = sorted(teams_data['Sports'].unique())
 
-# Country coordinates for the map 
-COUNTRY_COORDINATES = {
-    "United States": [37.0902, -95.7129],
-    "Afghanistan": [33.9391, 67.71],
-    "Albania": [41.1533, 20.1683],
-    "Algeria": [28.0339, 1.6596],
-    "Andorra": [42.5462, 1.6016],
-    "Angola": [11.2027, 17.8739],
-    "Argentina": [-38.4161, -63.6167],
-    "Armenia": [40.0691, 45.0382],
-    "Australia": [-25.2744, 133.7751],
-    "Austria": [47.5162, 14.5501],
-    "Azerbaijan": [40.1431, 47.5769],
-    "Bahamas": [25.0343, -77.3963],
-    "Bahrain": [26.0667, 50.5577],
-    "Bangladesh": [23.685, 90.3563],
-    "Barbados": [13.1939, -59.5432],
-    "Belarus": [53.7098, 27.9534],
-    "Belgium": [50.5039, 4.4699],
-    "Belize": [17.1899, -88.4976],
-    "Benin": [9.3077, 2.3158],
-    "Bhutan": [27.5142, 90.4336],
-    "Bolivia": [-16.2902, -63.5887],
-    "Bosnia and Herzegovina": [43.9159, 17.6791],
-    "Botswana": [-22.3285, 24.6849],
-    "Brazil": [-14.235, -51.9253],
-    "Brunei": [4.5353, 114.7277],
-    "Bulgaria": [42.7339, 25.4858],
-    "Burkina Faso": [12.2383, -1.5616],
-    "Burundi": [-3.3731, 29.9189],
-    "Cambodia": [12.5657, 104.991],
-    "Cameroon": [7.3697, 12.3547],
-    "Canada": [56.1304, -106.3468],
-    "Cape Verde": [16.5388, -23.0418],
-    "Central African Republic": [6.6111, 20.9394],
-    "Chad": [15.4542, 18.7322],
-    "Chile": [-35.6751, -71.543],
-    "China": [35.8617, 104.1954],
-    "Colombia": [4.5709, -74.2973],
-    "Comoros": [-11.6455, 43.3333],
-    "Congo (Brazzaville)": [-0.228, 15.8277],
-    "Congo (Kinshasa)": [-4.0383, 21.7587],
-    "Costa Rica": [9.7489, -83.7534],
-    "Croatia": [45.1, 15.2],
-    "Cuba": [21.5218, -77.7812],
-    "Cyprus": [35.1264, 33.4299],
-    "Czech Republic": [49.8175, 15.473],    
-    "Denmark": [56.2639, 9.5018],
-    "Djibouti": [11.8251, 42.5903],
-    "Dominica": [15.415, -61.371],
-    "Dominican Republic": [18.7357, -70.1627],
-    "Ecuador": [-1.8312, -78.1834],
-    "Egypt": [26.8206, 30.8025],
-    "El Salvador": [13.7942, -88.8965],
-    "Equatorial Guinea": [1.6508, 10.2679],
-    "Eritrea": [15.1794, 39.7823],
-    "Estonia": [58.5953, 25.0136],
-    "Eswatini": [-26.5225, 31.4659],
-    "Ethiopia": [9.145, 40.4897],
-    "Fiji": [-17.7134, 178.065],
-    "Finland": [61.9241, 25.7482],
-    "France": [46.6034, 1.8883],
-    "Gabon": [-0.8037, 11.6094],
-    "Gambia": [13.4432, -15.3101],
-    "Georgia": [42.3154, 43.3569],
-    "Germany": [51.1657, 10.4515],
-    "Ghana": [7.9465, -1.0232],
-    "Greece": [39.0742, 21.8243],
-    "Grenada": [12.1165, -61.679],
-    "Guatemala": [15.7835, -90.2308],
-    "Guinea": [9.9456, -9.6966],
-    "Guinea-Bissau": [11.8037, -15.1804],
-    "Guyana": [4.8604, -58.9302],
-    "Haiti": [18.9712, -72.2852],
-    "Honduras": [13.2, -87.0],
-    "Hungary": [47.1625, 19.5033],
-    "Iceland": [64.9631, -19.0208],
-    "India": [20.5937, 78.9629],
-    "Indonesia": [-0.7893, 113.9213],
-    "Iran": [32.4279, 53.688],
-    "Iraq": [33.2232, 43.6793],
-    "Ireland": [53.4129, -8.2439],
-    "Israel": [31.0461, 34.8516],
-    "Italy": [41.8719, 12.5674],
-    "Jamaica": [18.1096, -77.2975],
-    "Japan": [36.2048, 138.2529],
-    "Jordan": [30.5852, 36.2384],
-    "Kazakhstan": [48.0196, 66.9237],
-    "Kenya": [-1.2921, 36.8219],
-    "Kiribati": [1.8709, -157.363],
-    "Kuwait": [29.3759, 47.9774],
-    "Kyrgyzstan": [41.2044, 74.7661],
-    "Laos": [19.8563, 102.4955],
-    "Latvia": [56.8796, 24.6032],
-    "Lebanon": [33.8547, 35.8623],
-    "Lesotho": [-29.61, 28.2336],
-    "Liberia": [6.4281, -9.4295],
-    "Libya": [26.3351, 17.2283],
-    "Liechtenstein": [47.166, 9.5554],
-    "Lithuania": [55.1694, 23.8813],
-    "Luxembourg": [49.8153, 6.1296],
-    "Madagascar": [-18.7669, 46.8691],
-    "Malawi": [-13.2543, 34.3015],
-    "Malaysia": [4.2105, 101.9758],
-    "Maldives": [3.2028, 73.2207],
-    "Mali": [17.5707, -3.9962],
-    "Malta": [35.9375, 14.3754],
-    "Marshall Islands": [7.1315, 171.1845],
-    "Mauritania": [21.0079, -10.9408],
-    "Mauritius": [-20.3484, 57.5522],
-    "Mexico": [23.6345, -102.5528],
-    "Micronesia": [7.4256, 150.5508],
-    "Moldova": [47.4116, 28.3699],
-    "Monaco": [43.7384, 7.4246],
-    "Mongolia": [46.8625, 103.8467],
-    "Montenegro": [42.7087, 19.3744],
-    "Morocco": [31.7917, -7.0926],
-    "Mozambique": [-18.6657, 35.5296],
-    "Myanmar": [21.9162, 95.956],
-    "Namibia": [-22.9576, 18.4904],
-    "Nauru": [-0.5228, 166.9315],
-    "Nepal": [28.3949, 84.124],
-    "Netherlands": [52.1326, 5.2913],
-    "New Zealand": [-40.9006, 174.886],
-    "Nicaragua": [12.8654, -85.2072],
-    "Niger": [17.6078, 8.0817],
-    "Nigeria": [9.082, 8.6753],
-    "North Korea": [40.3399, 127.5101],
-    "North Macedonia": [41.6086, 21.7453],
-    "Norway": [60.472, 8.4689],
-    "Oman": [21.4735, 55.9754],
-    "Pakistan": [30.3753, 69.3451],
-    "Palau": [7.5149, 134.5825],
-    "Palestine": [31.9522, 35.2332],
-    "Panama": [8.538, -80.7821],
-    "Papua New Guinea": [-6.3149, 143.9555],
-    "Paraguay": [-23.4425, -58.4438],
-    "Peru": [-9.1899, -75.0152],
-    "Philippines": [12.8797, 121.774],
-    "Poland": [51.9194, 19.1451],
-    "Portugal": [39.3999, -8.2245],
-    "Qatar": [25.3548, 51.1839],
-    "Romania": [45.9432, 24.9668],
-    "Russia": [61.524, 105.3188],
-    "Rwanda": [-1.9403, 29.8739],
-    "Saint Kitts and Nevis": [17.3578, -62.782998],
-    "Saint Lucia": [13.9094, -60.9789],
-    "Saint Vincent and the Grenadines": [13.2528, -61.1971],
-    "Samoa": [-13.759, -172.1046],
-    "San Marino": [43.9333, 12.45],
-    "Sao Tome and Principe": [0.1864, 6.6131],
-    "Saudi Arabia": [23.8859, 45.0792],
-    "Senegal": [14.4974, -14.4524],
-    "Serbia": [44.0165, 21.0059],
-    "Seychelles": [-4.6796, 55.492],
-    "Sierra Leone": [8.4606, -11.7799],
-    "Singapore": [1.3521, 103.8198],
-    "Slovakia": [48.669, 19.699],
-    "Slovenia": [46.1512, 14.9955],
-    "Solomon Islands": [-9.6457, 160.1562],
-    "Somalia": [5.1521, 46.1996],
-    "South Africa": [-30.5595, 22.9375],
-    "South Korea": [35.9078, 127.7669],
-    "South Sudan": [6.877, 31.307],
-    "Spain": [40.4637, -3.7492],
-    "Sri Lanka": [7.8731, 80.7718],
-    "Sudan": [12.8628, 30.2176],
-    "Suriname": [3.9193, -56.0278],
-    "Sweden": [60.1282, 18.6435],
-    "Switzerland": [46.8182, 8.2275],
-    "Syria": [34.8021, 38.9968],
-    "Taiwan": [23.6978, 120.9605],
-    "Tajikistan": [38.861, 71.2761],
-    "Tanzania": [-6.369, 34.8888],
-    "Thailand": [15.87, 100.9925],
-    "Timor-Leste": [-8.8742, 125.7275],
-    "Togo": [8.6195, 0.8248],
-    "Tonga": [-21.179, -175.1982],
-    "Trinidad and Tobago": [10.6918, -61.2225],
-    "Tunisia": [33.8869, 9.5375],
-    "Turkey": [38.9637, 35.2433],
-    "Turkmenistan": [38.9697, 59.5563],
-    "Tuvalu": [-7.1095, 177.6493],
-    "Uganda": [1.3733, 32.2903],
-    "Ukraine": [48.3794, 31.1656],
-    "United Arab Emirates": [23.4241, 53.8478],
-    "United Kingdom": [55.3781, -3.436],
-    "Uruguay": [-32.5228, -55.7658],
-    "Uzbekistan": [41.3775, 64.5853],
-    "Vanuatu": [-15.3767, 166.9592],
-    "Vatican City": [41.9029, 12.4534],
-    "Venezuela": [6.4238, -66.5897],
-    "Vietnam": [14.0583, 108.2772],
-    "Yemen": [15.5527, 48.5164],
-    "Zambia": [-13.1339, 27.8493],
-    "Zimbabwe": [-19.0154, 29.1549],
-    
-}
+        last_data_refresh = datetime.now()
+        
+        logger.info(f"Successfully loaded {len(teams_data)} teams from {config.database.provider}")
+        return df
+        
+    except Exception as e:
+        logger.error(f"Error loading data: {str(e)}")
+        # Try to load fallback local file
+        try:
+            df = pd.read_excel("Basketball Sources Links.xlsx")
+            df = df.fillna('')
+            teams_data = df
+            countries = sorted(teams_data['Country'].unique())
+            leagues = sorted(teams_data['League'].unique())
+            sports = sorted(teams_data['Sports'].unique())
+            last_data_refresh = datetime.now()
+            logger.warning("Loaded fallback local data due to cloud provider error")
+            return df
+        except Exception as fallback_error:
+            logger.error(f"Failed to load fallback data: {str(fallback_error)}")
+            raise
 
-# Generate the world map
+def should_refresh_data():
+    """Check if data should be refreshed based on configured interval"""
+    if last_data_refresh is None:
+        return True
+    
+    refresh_interval = timedelta(minutes=config.database.refresh_interval_minutes)
+    return datetime.now() - last_data_refresh > refresh_interval
+
+def get_country_coordinates():
+    """Load country coordinates from JSON file"""
+    global country_coordinates
+    if not country_coordinates:
+        country_coordinates = load_country_coordinates()
+    return country_coordinates
+
 def generate_map():
+    """Generate the world map with team markers"""
     # Create a map centered on a default location
     m = folium.Map(location=[20, 0], zoom_start=2)
+    
+    coordinates = get_country_coordinates()
+    
+    if teams_data is None:
+        logger.warning("No teams data available for map generation")
+        return
     
     country_counts = teams_data['Country'].value_counts().reset_index()
     country_counts.columns = ['Country', 'Count']
     
-    # This adds the markers to the map
+    # Add markers to the map
     for _, row in country_counts.iterrows():
         country_name = row['Country']
-        if country_name in COUNTRY_COORDINATES:
+        if country_name in coordinates:
             # Create a clickable popup with JavaScript that sets the country filter
             popup_html = f"""
             <div style="width: 200px;">
@@ -255,7 +135,7 @@ def generate_map():
             """
             
             folium.Marker(
-                location=COUNTRY_COORDINATES[country_name],
+                location=coordinates[country_name],
                 popup=folium.Popup(popup_html, max_width=250),
                 tooltip=f"{country_name}: {row['Count']} teams",
                 icon=folium.Icon(color='orange', icon='info-sign')
@@ -274,25 +154,50 @@ def generate_map():
     </script>
     """
     
-    # for the JavaScript to the map
+    # Add the JavaScript to the map
     m.get_root().html.add_child(folium.Element(custom_js))
     
     # Save map to a template file
     os.makedirs('static', exist_ok=True)
     m.save('static/map.html')
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint for load balancer"""
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'version': '2.0.0',
+        'data_provider': config.database.provider,
+        'last_refresh': last_data_refresh.isoformat() if last_data_refresh else None
+    })
+
 @app.route('/')
 def index():
+    """Main dashboard page"""
+    # Check if we need to refresh data
+    if should_refresh_data():
+        try:
+            load_data()
+        except Exception as e:
+            logger.error(f"Failed to refresh data: {str(e)}")
+            flash(f"Warning: Using cached data due to refresh error", 'warning')
+    
     # Generate the map each time the index is loaded
     generate_map()
     
     return render_template('index.html', 
                           countries=countries,
                           leagues=leagues,
-                          sports=sports)
+                          sports=sports,
+                          last_refresh=last_data_refresh)
 
 @app.route('/api/teams')
 def get_teams():
+    """API endpoint to get filtered teams data"""
+    if teams_data is None:
+        return jsonify({'error': 'No data available'}), 500
+    
     # Get query parameters
     country = request.args.get('country', '')
     league = request.args.get('league', '')
@@ -329,7 +234,11 @@ def get_teams():
 
 @app.route('/team/<team_name>')
 def team_detail(team_name):
-    # Find the team by each name
+    """Individual team detail page"""
+    if teams_data is None:
+        return "Data not available", 500
+    
+    # Find the team by name
     team = teams_data[teams_data['Team'] == team_name]
     
     if team.empty:
@@ -342,13 +251,38 @@ def team_detail(team_name):
 
 @app.route('/map')
 def map_view():
+    """Dedicated map page"""
     # Generate the map
     generate_map()
     
     return render_template('map_container.html')
 
+@app.route('/api/refresh-data', methods=['POST'])
+def refresh_data():
+    """API endpoint to manually refresh data"""
+    try:
+        load_data()
+        generate_map()
+        return jsonify({
+            'success': True,
+            'message': 'Data refreshed successfully',
+            'timestamp': last_data_refresh.isoformat(),
+            'teams_count': len(teams_data)
+        })
+    except Exception as e:
+        logger.error(f"Manual data refresh failed: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 @app.route('/update-database', methods=['GET', 'POST'])
 def update_database():
+    """Legacy endpoint for local file uploads (fallback only)"""
+    if config.database.provider != 'local':
+        flash('Database updates are managed through cloud provider. Contact administrator.', 'info')
+        return redirect(url_for('index'))
+    
     if request.method == 'POST':
         # Check if the post request has the file part
         if 'file' not in request.files:
@@ -369,11 +303,7 @@ def update_database():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], "Basketball Sources Links.xlsx"))
             
             # Reload the data
-            global teams_data, countries, leagues, sports
-            teams_data = load_data()
-            countries = sorted(teams_data['Country'].unique())
-            leagues = sorted(teams_data['League'].unique())
-            sports = sorted(teams_data['Sports'].unique())
+            load_data()
             
             # Generate new map with updated data
             generate_map()
@@ -385,7 +315,42 @@ def update_database():
             
     return render_template('update_database.html')
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    logger.error(f"Internal server error: {str(error)}")
+    return render_template('500.html'), 500
+
+def create_app():
+    """Application factory for testing and deployment"""
+    global teams_data, countries, leagues, sports, last_data_refresh
+    
+    # Initialize data on startup
+    try:
+        load_data()
+        generate_map()
+        logger.info("Application initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize application: {str(e)}")
+    
+    return app
+
+# Initialize the application for production deployment
+if not teams_data:
+    try:
+        load_data()
+        generate_map()
+        logger.info("Application initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize application: {str(e)}")
+
 if __name__ == '__main__':
-    # Generate the map on startup
-    generate_map()
-    app.run(debug=True) 
+    # Run the application
+    app.run(
+        host=config.host,
+        port=config.port,
+        debug=config.debug
+    ) 

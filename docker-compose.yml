@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  basketball-dashboard:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - ENVIRONMENT=development
+      - FLASK_DEBUG=true
+      - SECRET_KEY=dev_secret_key_change_in_production
+      - DATA_PROVIDER=local
+      - LOG_LEVEL=DEBUG
+      - HOST=0.0.0.0
+      - PORT=5000
+      - PYTHONPATH=/app
+    volumes:
+      # Mount data directory for local development
+      - ./data:/app/data:ro
+      # Mount source code for development (remove in production)
+      - .:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Example with cloud provider configuration
+  basketball-dashboard-cloud:
+    build: .
+    ports:
+      - "5001:5000"
+    environment:
+      - ENVIRONMENT=production
+      - FLASK_DEBUG=false
+      - SECRET_KEY=${SECRET_KEY:-production_secret_key}
+      - DATA_PROVIDER=${DATA_PROVIDER:-sharepoint}
+      - LOG_LEVEL=INFO
+      - HOST=0.0.0.0
+      - PORT=5000
+      # SharePoint configuration
+      - SHAREPOINT_SITE_URL=${SHAREPOINT_SITE_URL}
+      - SHAREPOINT_FILE_PATH=${SHAREPOINT_FILE_PATH}
+      - SHAREPOINT_CLIENT_ID=${SHAREPOINT_CLIENT_ID}
+      - SHAREPOINT_CLIENT_SECRET=${SHAREPOINT_CLIENT_SECRET}
+      - SHAREPOINT_TENANT_ID=${SHAREPOINT_TENANT_ID}
+      # Data refresh interval
+      - DATA_REFRESH_INTERVAL=${DATA_REFRESH_INTERVAL:-60}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    profiles:
+      - cloud
+
+networks:
+  default:
+    name: basketball-dashboard-network 
