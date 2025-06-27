@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a1f7ba042bada51548e2b394057d88b8 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+    <script>
+    function filterByCountry(country) {
+        if (window.parent && window.parent.filterByCountry) {
+            window.parent.filterByCountry(country);
+        } else {
+            window.open('/?country=' + encodeURIComponent(country), '_blank');
+        }
+    }
+    </script>
+    
+    
+            <div class="folium-map" id="map_a1f7ba042bada51548e2b394057d88b8" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a1f7ba042bada51548e2b394057d88b8 = L.map(
+                "map_a1f7ba042bada51548e2b394057d88b8",
+                {
+                    center: [20.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 2,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a45e9575ec727edae788212345e9de0d = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+                tile_layer_a45e9575ec727edae788212345e9de0d.addTo(map_a1f7ba042bada51548e2b394057d88b8);
+    
+            var marker_5a230c2c0c628ee06273964a6690d1f7 = L.marker(
+                [37.0902, -95.7129],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_727e0d41e920c44a25fa5ffb558a370b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_5a230c2c0c628ee06273964a6690d1f7.setIcon(icon_727e0d41e920c44a25fa5ffb558a370b);
+        
+    
+        var popup_36d917c1c539288c5316a245106a9747 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_be993b1770fc93daf0d426d6debab71f = $(`<div id="html_be993b1770fc93daf0d426d6debab71f" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>United States</h4>                 <p>971 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('United States')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_36d917c1c539288c5316a245106a9747.setContent(html_be993b1770fc93daf0d426d6debab71f);
+            
+        
+
+        marker_5a230c2c0c628ee06273964a6690d1f7.bindPopup(popup_36d917c1c539288c5316a245106a9747)
+        ;
+
+        
+    
+    
+            marker_5a230c2c0c628ee06273964a6690d1f7.bindTooltip(
+                `<div>
+                     United States: 971 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b0a5863b274636f86dddc799ab3614fd = L.marker(
+                [41.8719, 12.5674],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_411e9f0718e68700d1c8426160720579 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_b0a5863b274636f86dddc799ab3614fd.setIcon(icon_411e9f0718e68700d1c8426160720579);
+        
+    
+        var popup_8d7d1e2dad8f8cdc19f49f97f587e41e = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_d174fe8d47541764e5599a9937d12e15 = $(`<div id="html_d174fe8d47541764e5599a9937d12e15" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Italy</h4>                 <p>119 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Italy')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_8d7d1e2dad8f8cdc19f49f97f587e41e.setContent(html_d174fe8d47541764e5599a9937d12e15);
+            
+        
+
+        marker_b0a5863b274636f86dddc799ab3614fd.bindPopup(popup_8d7d1e2dad8f8cdc19f49f97f587e41e)
+        ;
+
+        
+    
+    
+            marker_b0a5863b274636f86dddc799ab3614fd.bindTooltip(
+                `<div>
+                     Italy: 119 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_81daeb318185d2087cb84a790b2f2d13 = L.marker(
+                [-38.4161, -63.6167],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_a65e3093de0ba7f0badcfce058f26b4a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_81daeb318185d2087cb84a790b2f2d13.setIcon(icon_a65e3093de0ba7f0badcfce058f26b4a);
+        
+    
+        var popup_0b9217cba0475a49574892f605628e8f = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_1a2d12c71a925d9a1e137b9fd71d5213 = $(`<div id="html_1a2d12c71a925d9a1e137b9fd71d5213" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Argentina</h4>                 <p>61 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Argentina')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_0b9217cba0475a49574892f605628e8f.setContent(html_1a2d12c71a925d9a1e137b9fd71d5213);
+            
+        
+
+        marker_81daeb318185d2087cb84a790b2f2d13.bindPopup(popup_0b9217cba0475a49574892f605628e8f)
+        ;
+
+        
+    
+    
+            marker_81daeb318185d2087cb84a790b2f2d13.bindTooltip(
+                `<div>
+                     Argentina: 61 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9ce806a95d89543c04dffdf0707b0e91 = L.marker(
+                [46.6034, 1.8883],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_e8132ab5e6f4525e9fa2e9a4fe7c49b6 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_9ce806a95d89543c04dffdf0707b0e91.setIcon(icon_e8132ab5e6f4525e9fa2e9a4fe7c49b6);
+        
+    
+        var popup_d849e56034b356582396e018d3524c6f = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_1e072641e5c7e34e78775f5c77c60fc8 = $(`<div id="html_1e072641e5c7e34e78775f5c77c60fc8" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>France</h4>                 <p>38 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('France')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_d849e56034b356582396e018d3524c6f.setContent(html_1e072641e5c7e34e78775f5c77c60fc8);
+            
+        
+
+        marker_9ce806a95d89543c04dffdf0707b0e91.bindPopup(popup_d849e56034b356582396e018d3524c6f)
+        ;
+
+        
+    
+    
+            marker_9ce806a95d89543c04dffdf0707b0e91.bindTooltip(
+                `<div>
+                     France: 38 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_723e144ff20389a8fc79ef2f04ca26b6 = L.marker(
+                [40.4637, -3.7492],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_ee43ef7f53483e6f8953842a5769b133 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_723e144ff20389a8fc79ef2f04ca26b6.setIcon(icon_ee43ef7f53483e6f8953842a5769b133);
+        
+    
+        var popup_ed3da6833ca92cebb653691b9cd659b6 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_48a9558a9ec68810db3f05125d47e6c9 = $(`<div id="html_48a9558a9ec68810db3f05125d47e6c9" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Spain</h4>                 <p>36 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Spain')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_ed3da6833ca92cebb653691b9cd659b6.setContent(html_48a9558a9ec68810db3f05125d47e6c9);
+            
+        
+
+        marker_723e144ff20389a8fc79ef2f04ca26b6.bindPopup(popup_ed3da6833ca92cebb653691b9cd659b6)
+        ;
+
+        
+    
+    
+            marker_723e144ff20389a8fc79ef2f04ca26b6.bindTooltip(
+                `<div>
+                     Spain: 36 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f6b9bffbcdfb2b1c0bdb7b5c3086cbe5 = L.marker(
+                [46.1512, 14.9955],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_055a6b07fc8c72e841435b9b055da6b9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_f6b9bffbcdfb2b1c0bdb7b5c3086cbe5.setIcon(icon_055a6b07fc8c72e841435b9b055da6b9);
+        
+    
+        var popup_3677769d9f111e5b3d9d9104d430c535 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_0a3d2dee5c3f2d73669a3747a10ee157 = $(`<div id="html_0a3d2dee5c3f2d73669a3747a10ee157" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Slovenia</h4>                 <p>34 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Slovenia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_3677769d9f111e5b3d9d9104d430c535.setContent(html_0a3d2dee5c3f2d73669a3747a10ee157);
+            
+        
+
+        marker_f6b9bffbcdfb2b1c0bdb7b5c3086cbe5.bindPopup(popup_3677769d9f111e5b3d9d9104d430c535)
+        ;
+
+        
+    
+    
+            marker_f6b9bffbcdfb2b1c0bdb7b5c3086cbe5.bindTooltip(
+                `<div>
+                     Slovenia: 34 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_78400e9692d9d668b4d9725909c6737f = L.marker(
+                [-35.6751, -71.543],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_1c35c3bcd8abdfa710b2a2c3cb972b75 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_78400e9692d9d668b4d9725909c6737f.setIcon(icon_1c35c3bcd8abdfa710b2a2c3cb972b75);
+        
+    
+        var popup_15e919ed7c13bbbdd84b4c97336b1307 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_716ee1a1dc7a7f1d35e6dfb3481b6048 = $(`<div id="html_716ee1a1dc7a7f1d35e6dfb3481b6048" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Chile</h4>                 <p>34 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Chile')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_15e919ed7c13bbbdd84b4c97336b1307.setContent(html_716ee1a1dc7a7f1d35e6dfb3481b6048);
+            
+        
+
+        marker_78400e9692d9d668b4d9725909c6737f.bindPopup(popup_15e919ed7c13bbbdd84b4c97336b1307)
+        ;
+
+        
+    
+    
+            marker_78400e9692d9d668b4d9725909c6737f.bindTooltip(
+                `<div>
+                     Chile: 34 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_946f2752499a38ccf3a3eaca94153c68 = L.marker(
+                [44.0165, 21.0059],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_0bd5c090678e483654eda8c1f3304f6a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_946f2752499a38ccf3a3eaca94153c68.setIcon(icon_0bd5c090678e483654eda8c1f3304f6a);
+        
+    
+        var popup_c87723393f7bb896e66984e96f172730 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_6e562e828754402fa80bb27dd7329603 = $(`<div id="html_6e562e828754402fa80bb27dd7329603" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Serbia</h4>                 <p>33 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Serbia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_c87723393f7bb896e66984e96f172730.setContent(html_6e562e828754402fa80bb27dd7329603);
+            
+        
+
+        marker_946f2752499a38ccf3a3eaca94153c68.bindPopup(popup_c87723393f7bb896e66984e96f172730)
+        ;
+
+        
+    
+    
+            marker_946f2752499a38ccf3a3eaca94153c68.bindTooltip(
+                `<div>
+                     Serbia: 33 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_71c4fcb1f0f327f5e5d2a62af0b5747b = L.marker(
+                [-14.235, -51.9253],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_926cf40976c4bb2c8045adc2c94d3f8b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_71c4fcb1f0f327f5e5d2a62af0b5747b.setIcon(icon_926cf40976c4bb2c8045adc2c94d3f8b);
+        
+    
+        var popup_a75edb7b5c1158fc2e8f5cbdc43f64b3 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_353e0231fad7e07d2dfbf84bce47b6d1 = $(`<div id="html_353e0231fad7e07d2dfbf84bce47b6d1" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Brazil</h4>                 <p>32 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Brazil')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_a75edb7b5c1158fc2e8f5cbdc43f64b3.setContent(html_353e0231fad7e07d2dfbf84bce47b6d1);
+            
+        
+
+        marker_71c4fcb1f0f327f5e5d2a62af0b5747b.bindPopup(popup_a75edb7b5c1158fc2e8f5cbdc43f64b3)
+        ;
+
+        
+    
+    
+            marker_71c4fcb1f0f327f5e5d2a62af0b5747b.bindTooltip(
+                `<div>
+                     Brazil: 32 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4aab52b859bad97127a8f745d1e21998 = L.marker(
+                [-32.5228, -55.7658],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_361f544bb8dd10a353271e728c336853 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_4aab52b859bad97127a8f745d1e21998.setIcon(icon_361f544bb8dd10a353271e728c336853);
+        
+    
+        var popup_0262ac54e2c67ceeb2c5802fc8a25432 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_5ad99c17ee9fdceca553880c7fa8dd2c = $(`<div id="html_5ad99c17ee9fdceca553880c7fa8dd2c" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Uruguay</h4>                 <p>29 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Uruguay')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_0262ac54e2c67ceeb2c5802fc8a25432.setContent(html_5ad99c17ee9fdceca553880c7fa8dd2c);
+            
+        
+
+        marker_4aab52b859bad97127a8f745d1e21998.bindPopup(popup_0262ac54e2c67ceeb2c5802fc8a25432)
+        ;
+
+        
+    
+    
+            marker_4aab52b859bad97127a8f745d1e21998.bindTooltip(
+                `<div>
+                     Uruguay: 29 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0822ecda9b07c5a4744adddff3059b3b = L.marker(
+                [47.1625, 19.5033],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_55dc77c89ce90c2f74d8fcd25be3a9a4 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_0822ecda9b07c5a4744adddff3059b3b.setIcon(icon_55dc77c89ce90c2f74d8fcd25be3a9a4);
+        
+    
+        var popup_f43a104944dfe5d4d109b7f1d62fc243 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_eb2a58074b319db1397b7f92732724ec = $(`<div id="html_eb2a58074b319db1397b7f92732724ec" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Hungary</h4>                 <p>28 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Hungary')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_f43a104944dfe5d4d109b7f1d62fc243.setContent(html_eb2a58074b319db1397b7f92732724ec);
+            
+        
+
+        marker_0822ecda9b07c5a4744adddff3059b3b.bindPopup(popup_f43a104944dfe5d4d109b7f1d62fc243)
+        ;
+
+        
+    
+    
+            marker_0822ecda9b07c5a4744adddff3059b3b.bindTooltip(
+                `<div>
+                     Hungary: 28 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d438fdcafd395ba9ce9958d00dbebbc3 = L.marker(
+                [47.5162, 14.5501],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_63916499cd4116312fa6589069ebd073 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_d438fdcafd395ba9ce9958d00dbebbc3.setIcon(icon_63916499cd4116312fa6589069ebd073);
+        
+    
+        var popup_891e7681185282ea262f47a73114a517 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_90535026cc1105a28e9ff08c7ffd8ebf = $(`<div id="html_90535026cc1105a28e9ff08c7ffd8ebf" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Austria</h4>                 <p>27 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Austria')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_891e7681185282ea262f47a73114a517.setContent(html_90535026cc1105a28e9ff08c7ffd8ebf);
+            
+        
+
+        marker_d438fdcafd395ba9ce9958d00dbebbc3.bindPopup(popup_891e7681185282ea262f47a73114a517)
+        ;
+
+        
+    
+    
+            marker_d438fdcafd395ba9ce9958d00dbebbc3.bindTooltip(
+                `<div>
+                     Austria: 27 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_45670650fe12a239543961f695db7211 = L.marker(
+                [49.8175, 15.473],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_b272f31320b596995a04fc2fb1270621 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_45670650fe12a239543961f695db7211.setIcon(icon_b272f31320b596995a04fc2fb1270621);
+        
+    
+        var popup_77ed946b0111c87db1878df9e5ff1941 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_5c89497329f60697810aeb4cda04ad3a = $(`<div id="html_5c89497329f60697810aeb4cda04ad3a" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Czech Republic</h4>                 <p>25 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Czech Republic')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_77ed946b0111c87db1878df9e5ff1941.setContent(html_5c89497329f60697810aeb4cda04ad3a);
+            
+        
+
+        marker_45670650fe12a239543961f695db7211.bindPopup(popup_77ed946b0111c87db1878df9e5ff1941)
+        ;
+
+        
+    
+    
+            marker_45670650fe12a239543961f695db7211.bindTooltip(
+                `<div>
+                     Czech Republic: 25 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_166c51d0aac0baf77ac8c5eb993895be = L.marker(
+                [4.5709, -74.2973],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_e6729cf3ff0041e40ea2129c06a78551 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_166c51d0aac0baf77ac8c5eb993895be.setIcon(icon_e6729cf3ff0041e40ea2129c06a78551);
+        
+    
+        var popup_eb4bc9ad12507238c22a67bc2d20a9df = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_c339ad965a03176c3291eefcdbe725b6 = $(`<div id="html_c339ad965a03176c3291eefcdbe725b6" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Colombia</h4>                 <p>24 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Colombia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_eb4bc9ad12507238c22a67bc2d20a9df.setContent(html_c339ad965a03176c3291eefcdbe725b6);
+            
+        
+
+        marker_166c51d0aac0baf77ac8c5eb993895be.bindPopup(popup_eb4bc9ad12507238c22a67bc2d20a9df)
+        ;
+
+        
+    
+    
+            marker_166c51d0aac0baf77ac8c5eb993895be.bindTooltip(
+                `<div>
+                     Colombia: 24 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2ac5fc033d0122dc62cc5d0d712df314 = L.marker(
+                [51.9194, 19.1451],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_6e252be29b861417d54c71c4d1af1555 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_2ac5fc033d0122dc62cc5d0d712df314.setIcon(icon_6e252be29b861417d54c71c4d1af1555);
+        
+    
+        var popup_8d149bdadf180692079f678bb60d1c23 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_41195c0c6f98ac458ece9c49ecc054ef = $(`<div id="html_41195c0c6f98ac458ece9c49ecc054ef" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Poland</h4>                 <p>22 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Poland')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_8d149bdadf180692079f678bb60d1c23.setContent(html_41195c0c6f98ac458ece9c49ecc054ef);
+            
+        
+
+        marker_2ac5fc033d0122dc62cc5d0d712df314.bindPopup(popup_8d149bdadf180692079f678bb60d1c23)
+        ;
+
+        
+    
+    
+            marker_2ac5fc033d0122dc62cc5d0d712df314.bindTooltip(
+                `<div>
+                     Poland: 22 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_cea8859996ca6baf205d8991927ef460 = L.marker(
+                [6.4238, -66.5897],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_bffb71ac6e1d14ec423acfbfe3ea6ada = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_cea8859996ca6baf205d8991927ef460.setIcon(icon_bffb71ac6e1d14ec423acfbfe3ea6ada);
+        
+    
+        var popup_5674841f3590904b3f8c4e86b18a9161 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_2a61a5bc010047a6bfe184d9d6b20788 = $(`<div id="html_2a61a5bc010047a6bfe184d9d6b20788" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Venezuela</h4>                 <p>21 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Venezuela')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_5674841f3590904b3f8c4e86b18a9161.setContent(html_2a61a5bc010047a6bfe184d9d6b20788);
+            
+        
+
+        marker_cea8859996ca6baf205d8991927ef460.bindPopup(popup_5674841f3590904b3f8c4e86b18a9161)
+        ;
+
+        
+    
+    
+            marker_cea8859996ca6baf205d8991927ef460.bindTooltip(
+                `<div>
+                     Venezuela: 21 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_97d37ee96177de5134b2a1a652e75347 = L.marker(
+                [35.8617, 104.1954],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_c6bff9ebad82c5d1a2611a906d39ecd1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_97d37ee96177de5134b2a1a652e75347.setIcon(icon_c6bff9ebad82c5d1a2611a906d39ecd1);
+        
+    
+        var popup_f478adb3a07635c058e29b47c037d323 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_3602d9e537e4f87217f6da1d08ccf2c5 = $(`<div id="html_3602d9e537e4f87217f6da1d08ccf2c5" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>China</h4>                 <p>21 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('China')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_f478adb3a07635c058e29b47c037d323.setContent(html_3602d9e537e4f87217f6da1d08ccf2c5);
+            
+        
+
+        marker_97d37ee96177de5134b2a1a652e75347.bindPopup(popup_f478adb3a07635c058e29b47c037d323)
+        ;
+
+        
+    
+    
+            marker_97d37ee96177de5134b2a1a652e75347.bindTooltip(
+                `<div>
+                     China: 21 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7c218c78f897cbef70e17c5326cbc432 = L.marker(
+                [23.6345, -102.5528],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_559718146b994a16b13417ae86839e6c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_7c218c78f897cbef70e17c5326cbc432.setIcon(icon_559718146b994a16b13417ae86839e6c);
+        
+    
+        var popup_1937909c722c8aec9d9eff821832aa00 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_764a2b18fe725badb4ef6acd84b03865 = $(`<div id="html_764a2b18fe725badb4ef6acd84b03865" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Mexico</h4>                 <p>19 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Mexico')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_1937909c722c8aec9d9eff821832aa00.setContent(html_764a2b18fe725badb4ef6acd84b03865);
+            
+        
+
+        marker_7c218c78f897cbef70e17c5326cbc432.bindPopup(popup_1937909c722c8aec9d9eff821832aa00)
+        ;
+
+        
+    
+    
+            marker_7c218c78f897cbef70e17c5326cbc432.bindTooltip(
+                `<div>
+                     Mexico: 19 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_91b2e269e4624ee54da3c5a4b0dc57dc = L.marker(
+                [51.1657, 10.4515],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_aebbf79d97cf1fef75021fbede49beee = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_91b2e269e4624ee54da3c5a4b0dc57dc.setIcon(icon_aebbf79d97cf1fef75021fbede49beee);
+        
+    
+        var popup_8321bd24ad1386f2202589b52831b414 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_be19c969479a36dcb1d73d360b6f28ee = $(`<div id="html_be19c969479a36dcb1d73d360b6f28ee" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Germany</h4>                 <p>19 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Germany')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_8321bd24ad1386f2202589b52831b414.setContent(html_be19c969479a36dcb1d73d360b6f28ee);
+            
+        
+
+        marker_91b2e269e4624ee54da3c5a4b0dc57dc.bindPopup(popup_8321bd24ad1386f2202589b52831b414)
+        ;
+
+        
+    
+    
+            marker_91b2e269e4624ee54da3c5a4b0dc57dc.bindTooltip(
+                `<div>
+                     Germany: 19 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_44ff6e83031a5e2524960b0364a0f5ec = L.marker(
+                [38.9637, 35.2433],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_ac17cd3052dfcd7f72ed6c10807576c5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_44ff6e83031a5e2524960b0364a0f5ec.setIcon(icon_ac17cd3052dfcd7f72ed6c10807576c5);
+        
+    
+        var popup_1f5b936ec3e2546014a5dc4d367e2c81 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_22fb33422f7bd12673a746ebde6ce3cb = $(`<div id="html_22fb33422f7bd12673a746ebde6ce3cb" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Turkey</h4>                 <p>17 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Turkey')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_1f5b936ec3e2546014a5dc4d367e2c81.setContent(html_22fb33422f7bd12673a746ebde6ce3cb);
+            
+        
+
+        marker_44ff6e83031a5e2524960b0364a0f5ec.bindPopup(popup_1f5b936ec3e2546014a5dc4d367e2c81)
+        ;
+
+        
+    
+    
+            marker_44ff6e83031a5e2524960b0364a0f5ec.bindTooltip(
+                `<div>
+                     Turkey: 17 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5bfe85ac7e976f6a3163d3d91a14bcc2 = L.marker(
+                [45.9432, 24.9668],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_a3a05d322c67a6740d1cb17315ba483f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_5bfe85ac7e976f6a3163d3d91a14bcc2.setIcon(icon_a3a05d322c67a6740d1cb17315ba483f);
+        
+    
+        var popup_34222508d37deec78b5cf965ad61cfed = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_48dd5c94e3ca1dcbb70adde3a192bff3 = $(`<div id="html_48dd5c94e3ca1dcbb70adde3a192bff3" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Romania</h4>                 <p>15 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Romania')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_34222508d37deec78b5cf965ad61cfed.setContent(html_48dd5c94e3ca1dcbb70adde3a192bff3);
+            
+        
+
+        marker_5bfe85ac7e976f6a3163d3d91a14bcc2.bindPopup(popup_34222508d37deec78b5cf965ad61cfed)
+        ;
+
+        
+    
+    
+            marker_5bfe85ac7e976f6a3163d3d91a14bcc2.bindTooltip(
+                `<div>
+                     Romania: 15 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8f3212e0248c5eaa0367c8d4f2cb3abc = L.marker(
+                [55.1694, 23.8813],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_40800b1c8bba5941faed7bc0af042611 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_8f3212e0248c5eaa0367c8d4f2cb3abc.setIcon(icon_40800b1c8bba5941faed7bc0af042611);
+        
+    
+        var popup_d4f3c9161baee803b5fe4778dba33c79 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_4a9e910a58c2eb8ec25c94cb2d430b67 = $(`<div id="html_4a9e910a58c2eb8ec25c94cb2d430b67" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Lithuania</h4>                 <p>15 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Lithuania')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_d4f3c9161baee803b5fe4778dba33c79.setContent(html_4a9e910a58c2eb8ec25c94cb2d430b67);
+            
+        
+
+        marker_8f3212e0248c5eaa0367c8d4f2cb3abc.bindPopup(popup_d4f3c9161baee803b5fe4778dba33c79)
+        ;
+
+        
+    
+    
+            marker_8f3212e0248c5eaa0367c8d4f2cb3abc.bindTooltip(
+                `<div>
+                     Lithuania: 15 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fd53261b5996d2799462a9cb491b373c = L.marker(
+                [56.8796, 24.6032],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_93af80c20afc204abf4bfac4a0118bca = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_fd53261b5996d2799462a9cb491b373c.setIcon(icon_93af80c20afc204abf4bfac4a0118bca);
+        
+    
+        var popup_97e6f20dc9e124173303435385f593ea = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_c04e67a94b81576da70627e08153048b = $(`<div id="html_c04e67a94b81576da70627e08153048b" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Latvia</h4>                 <p>15 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Latvia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_97e6f20dc9e124173303435385f593ea.setContent(html_c04e67a94b81576da70627e08153048b);
+            
+        
+
+        marker_fd53261b5996d2799462a9cb491b373c.bindPopup(popup_97e6f20dc9e124173303435385f593ea)
+        ;
+
+        
+    
+    
+            marker_fd53261b5996d2799462a9cb491b373c.bindTooltip(
+                `<div>
+                     Latvia: 15 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_18e46276f867d70fee6f811e3cf64d59 = L.marker(
+                [39.0742, 21.8243],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_4f8aff34e97d7f5c3284e58f21e52ec5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_18e46276f867d70fee6f811e3cf64d59.setIcon(icon_4f8aff34e97d7f5c3284e58f21e52ec5);
+        
+    
+        var popup_a3690925c8dff5b2443237a3fe9eec76 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_eaeaafb7006f8e6ec136db5a13a5ff07 = $(`<div id="html_eaeaafb7006f8e6ec136db5a13a5ff07" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Greece</h4>                 <p>14 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Greece')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_a3690925c8dff5b2443237a3fe9eec76.setContent(html_eaeaafb7006f8e6ec136db5a13a5ff07);
+            
+        
+
+        marker_18e46276f867d70fee6f811e3cf64d59.bindPopup(popup_a3690925c8dff5b2443237a3fe9eec76)
+        ;
+
+        
+    
+    
+            marker_18e46276f867d70fee6f811e3cf64d59.bindTooltip(
+                `<div>
+                     Greece: 14 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_686068ed551edc79e3828d05d4720d7d = L.marker(
+                [52.1326, 5.2913],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_ccbbf010ed73ca35311a22754bd9bea5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_686068ed551edc79e3828d05d4720d7d.setIcon(icon_ccbbf010ed73ca35311a22754bd9bea5);
+        
+    
+        var popup_d8ccbea71a79ec40b49abb5af78c3fc5 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_f2640199173d062b42b8c4a96edb9ee3 = $(`<div id="html_f2640199173d062b42b8c4a96edb9ee3" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Netherlands</h4>                 <p>14 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Netherlands')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_d8ccbea71a79ec40b49abb5af78c3fc5.setContent(html_f2640199173d062b42b8c4a96edb9ee3);
+            
+        
+
+        marker_686068ed551edc79e3828d05d4720d7d.bindPopup(popup_d8ccbea71a79ec40b49abb5af78c3fc5)
+        ;
+
+        
+    
+    
+            marker_686068ed551edc79e3828d05d4720d7d.bindTooltip(
+                `<div>
+                     Netherlands: 14 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_be96758b5da2dbca474ba93e3ea3a1ad = L.marker(
+                [39.3999, -8.2245],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_d40d46926da12534b05fcc7106f2051d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_be96758b5da2dbca474ba93e3ea3a1ad.setIcon(icon_d40d46926da12534b05fcc7106f2051d);
+        
+    
+        var popup_04c0fcd2e77de10554cf41c06268da8f = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_aec388ded9103223cc57164e130f977a = $(`<div id="html_aec388ded9103223cc57164e130f977a" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Portugal</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Portugal')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_04c0fcd2e77de10554cf41c06268da8f.setContent(html_aec388ded9103223cc57164e130f977a);
+            
+        
+
+        marker_be96758b5da2dbca474ba93e3ea3a1ad.bindPopup(popup_04c0fcd2e77de10554cf41c06268da8f)
+        ;
+
+        
+    
+    
+            marker_be96758b5da2dbca474ba93e3ea3a1ad.bindTooltip(
+                `<div>
+                     Portugal: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_663cc58b2259479dd993ca7291080a7e = L.marker(
+                [64.9631, -19.0208],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_b972a81bb9f0e30e6022feb0bfdca0de = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_663cc58b2259479dd993ca7291080a7e.setIcon(icon_b972a81bb9f0e30e6022feb0bfdca0de);
+        
+    
+        var popup_c14b3801c0a17783b658baea56daf110 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_a0965e4e4fa6cc8ffef1e96a8408fe01 = $(`<div id="html_a0965e4e4fa6cc8ffef1e96a8408fe01" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Iceland</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Iceland')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_c14b3801c0a17783b658baea56daf110.setContent(html_a0965e4e4fa6cc8ffef1e96a8408fe01);
+            
+        
+
+        marker_663cc58b2259479dd993ca7291080a7e.bindPopup(popup_c14b3801c0a17783b658baea56daf110)
+        ;
+
+        
+    
+    
+            marker_663cc58b2259479dd993ca7291080a7e.bindTooltip(
+                `<div>
+                     Iceland: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_502a0a0a102aab80378446f2f5d03ee3 = L.marker(
+                [48.3794, 31.1656],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_83bcf2fae3dcc4c1bf97751935782447 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_502a0a0a102aab80378446f2f5d03ee3.setIcon(icon_83bcf2fae3dcc4c1bf97751935782447);
+        
+    
+        var popup_6dcc1387a9ee538380800e3a465be30e = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_0f5926218029ec25e1784e376a027da6 = $(`<div id="html_0f5926218029ec25e1784e376a027da6" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Ukraine</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Ukraine')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_6dcc1387a9ee538380800e3a465be30e.setContent(html_0f5926218029ec25e1784e376a027da6);
+            
+        
+
+        marker_502a0a0a102aab80378446f2f5d03ee3.bindPopup(popup_6dcc1387a9ee538380800e3a465be30e)
+        ;
+
+        
+    
+    
+            marker_502a0a0a102aab80378446f2f5d03ee3.bindTooltip(
+                `<div>
+                     Ukraine: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_29a4b3091f5cb6ebc77f8cc1e96db98b = L.marker(
+                [31.0461, 34.8516],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_2c43a6143ebf0a00f6f1dca5db88d76a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_29a4b3091f5cb6ebc77f8cc1e96db98b.setIcon(icon_2c43a6143ebf0a00f6f1dca5db88d76a);
+        
+    
+        var popup_cfd0d02173d5da551651302c96647f27 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_136a824417b49385dbd93b164382daf0 = $(`<div id="html_136a824417b49385dbd93b164382daf0" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Israel</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Israel')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_cfd0d02173d5da551651302c96647f27.setContent(html_136a824417b49385dbd93b164382daf0);
+            
+        
+
+        marker_29a4b3091f5cb6ebc77f8cc1e96db98b.bindPopup(popup_cfd0d02173d5da551651302c96647f27)
+        ;
+
+        
+    
+    
+            marker_29a4b3091f5cb6ebc77f8cc1e96db98b.bindTooltip(
+                `<div>
+                     Israel: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3a06e03a79268b558b4ab4d8140e9066 = L.marker(
+                [61.9241, 25.7482],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_aaca733f2782766e1738720afafa5ef1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_3a06e03a79268b558b4ab4d8140e9066.setIcon(icon_aaca733f2782766e1738720afafa5ef1);
+        
+    
+        var popup_32746f285793473d39bc3e085d1ffe3d = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_c1b882eb69133aa5e00f7aa9553817ed = $(`<div id="html_c1b882eb69133aa5e00f7aa9553817ed" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Finland</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Finland')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_32746f285793473d39bc3e085d1ffe3d.setContent(html_c1b882eb69133aa5e00f7aa9553817ed);
+            
+        
+
+        marker_3a06e03a79268b558b4ab4d8140e9066.bindPopup(popup_32746f285793473d39bc3e085d1ffe3d)
+        ;
+
+        
+    
+    
+            marker_3a06e03a79268b558b4ab4d8140e9066.bindTooltip(
+                `<div>
+                     Finland: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_67e9f344c2ebb2d4049063ef299b1083 = L.marker(
+                [45.1, 15.2],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_3c88c77f9b899e3c3016d04864822e95 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_67e9f344c2ebb2d4049063ef299b1083.setIcon(icon_3c88c77f9b899e3c3016d04864822e95);
+        
+    
+        var popup_8c156ab6eb9b2edfb8aa47c4566ee3ab = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_9ef522ddc267b0c7b3530b4c29002f25 = $(`<div id="html_9ef522ddc267b0c7b3530b4c29002f25" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Croatia</h4>                 <p>13 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Croatia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_8c156ab6eb9b2edfb8aa47c4566ee3ab.setContent(html_9ef522ddc267b0c7b3530b4c29002f25);
+            
+        
+
+        marker_67e9f344c2ebb2d4049063ef299b1083.bindPopup(popup_8c156ab6eb9b2edfb8aa47c4566ee3ab)
+        ;
+
+        
+    
+    
+            marker_67e9f344c2ebb2d4049063ef299b1083.bindTooltip(
+                `<div>
+                     Croatia: 13 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8c5e64abb58dc599fff5a60cbcd31144 = L.marker(
+                [42.3154, 43.3569],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_3ad40aeeaa3b19f11e62b93dfc505d4b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_8c5e64abb58dc599fff5a60cbcd31144.setIcon(icon_3ad40aeeaa3b19f11e62b93dfc505d4b);
+        
+    
+        var popup_a72dad839af51358064fc6cecfea2b52 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_2c124da348fc150063c93d5a576e9741 = $(`<div id="html_2c124da348fc150063c93d5a576e9741" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Georgia</h4>                 <p>12 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Georgia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_a72dad839af51358064fc6cecfea2b52.setContent(html_2c124da348fc150063c93d5a576e9741);
+            
+        
+
+        marker_8c5e64abb58dc599fff5a60cbcd31144.bindPopup(popup_a72dad839af51358064fc6cecfea2b52)
+        ;
+
+        
+    
+    
+            marker_8c5e64abb58dc599fff5a60cbcd31144.bindTooltip(
+                `<div>
+                     Georgia: 12 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4461730944479a7923f77426cc50a22e = L.marker(
+                [56.2639, 9.5018],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_2647ea963a3fcf35cf8b26c24cad6c34 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_4461730944479a7923f77426cc50a22e.setIcon(icon_2647ea963a3fcf35cf8b26c24cad6c34);
+        
+    
+        var popup_bbf5bf5653a4ac24e72cffa807d1d556 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_4c00ccb9506018a398fbb58b761d4868 = $(`<div id="html_4c00ccb9506018a398fbb58b761d4868" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Denmark</h4>                 <p>12 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Denmark')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_bbf5bf5653a4ac24e72cffa807d1d556.setContent(html_4c00ccb9506018a398fbb58b761d4868);
+            
+        
+
+        marker_4461730944479a7923f77426cc50a22e.bindPopup(popup_bbf5bf5653a4ac24e72cffa807d1d556)
+        ;
+
+        
+    
+    
+            marker_4461730944479a7923f77426cc50a22e.bindTooltip(
+                `<div>
+                     Denmark: 12 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6ac36d80d070acdbe04637cc53e962de = L.marker(
+                [13.7942, -88.8965],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_28f426086e8c1131dd69abddacf0cacf = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_6ac36d80d070acdbe04637cc53e962de.setIcon(icon_28f426086e8c1131dd69abddacf0cacf);
+        
+    
+        var popup_ed069991f34c3007035fd1550f175ad7 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_7c438585eef2c69df3d2f1b1525fc685 = $(`<div id="html_7c438585eef2c69df3d2f1b1525fc685" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>El Salvador</h4>                 <p>11 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('El Salvador')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_ed069991f34c3007035fd1550f175ad7.setContent(html_7c438585eef2c69df3d2f1b1525fc685);
+            
+        
+
+        marker_6ac36d80d070acdbe04637cc53e962de.bindPopup(popup_ed069991f34c3007035fd1550f175ad7)
+        ;
+
+        
+    
+    
+            marker_6ac36d80d070acdbe04637cc53e962de.bindTooltip(
+                `<div>
+                     El Salvador: 11 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e7dd6d2db1c9d687f58c82530dbe21dd = L.marker(
+                [46.8182, 8.2275],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_e6659961c0ba406629c712d9645a7447 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_e7dd6d2db1c9d687f58c82530dbe21dd.setIcon(icon_e6659961c0ba406629c712d9645a7447);
+        
+    
+        var popup_687628436c1fb89e13ab225e1f86dc01 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_9911b40a1c9b0d80d02cb32c8b93436e = $(`<div id="html_9911b40a1c9b0d80d02cb32c8b93436e" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Switzerland</h4>                 <p>11 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Switzerland')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_687628436c1fb89e13ab225e1f86dc01.setContent(html_9911b40a1c9b0d80d02cb32c8b93436e);
+            
+        
+
+        marker_e7dd6d2db1c9d687f58c82530dbe21dd.bindPopup(popup_687628436c1fb89e13ab225e1f86dc01)
+        ;
+
+        
+    
+    
+            marker_e7dd6d2db1c9d687f58c82530dbe21dd.bindTooltip(
+                `<div>
+                     Switzerland: 11 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e59cee92658e4a8caf477177114feb24 = L.marker(
+                [-25.2744, 133.7751],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_0ca6b7d0bc0ec7628f69cc427e45ef54 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_e59cee92658e4a8caf477177114feb24.setIcon(icon_0ca6b7d0bc0ec7628f69cc427e45ef54);
+        
+    
+        var popup_a0fc9ee2841bfdf39a9c42fb2e2423bf = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_4ada81fdefb76c5d065ce90784369ddd = $(`<div id="html_4ada81fdefb76c5d065ce90784369ddd" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Australia</h4>                 <p>11 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Australia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_a0fc9ee2841bfdf39a9c42fb2e2423bf.setContent(html_4ada81fdefb76c5d065ce90784369ddd);
+            
+        
+
+        marker_e59cee92658e4a8caf477177114feb24.bindPopup(popup_a0fc9ee2841bfdf39a9c42fb2e2423bf)
+        ;
+
+        
+    
+    
+            marker_e59cee92658e4a8caf477177114feb24.bindTooltip(
+                `<div>
+                     Australia: 11 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ce99e0f3f76fb0aed8c418d6d02bdaed = L.marker(
+                [50.5039, 4.4699],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_729104269666ecdcb76a3c89980472e0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_ce99e0f3f76fb0aed8c418d6d02bdaed.setIcon(icon_729104269666ecdcb76a3c89980472e0);
+        
+    
+        var popup_71724e15faac03eb949ebe7f1690423f = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_b3b0e6e63d165b2376434a38b82b558b = $(`<div id="html_b3b0e6e63d165b2376434a38b82b558b" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Belgium</h4>                 <p>11 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Belgium')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_71724e15faac03eb949ebe7f1690423f.setContent(html_b3b0e6e63d165b2376434a38b82b558b);
+            
+        
+
+        marker_ce99e0f3f76fb0aed8c418d6d02bdaed.bindPopup(popup_71724e15faac03eb949ebe7f1690423f)
+        ;
+
+        
+    
+    
+            marker_ce99e0f3f76fb0aed8c418d6d02bdaed.bindTooltip(
+                `<div>
+                     Belgium: 11 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7fe785f4f577befcbe731cda3f066b22 = L.marker(
+                [53.7098, 27.9534],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_6eb3b7b228748829865fc5858b17387d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_7fe785f4f577befcbe731cda3f066b22.setIcon(icon_6eb3b7b228748829865fc5858b17387d);
+        
+    
+        var popup_40fb17be9eafe2928a0025e010cddfcd = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_09dce49434cd4cedcc1cbf5bc700c1c5 = $(`<div id="html_09dce49434cd4cedcc1cbf5bc700c1c5" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Belarus</h4>                 <p>11 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Belarus')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_40fb17be9eafe2928a0025e010cddfcd.setContent(html_09dce49434cd4cedcc1cbf5bc700c1c5);
+            
+        
+
+        marker_7fe785f4f577befcbe731cda3f066b22.bindPopup(popup_40fb17be9eafe2928a0025e010cddfcd)
+        ;
+
+        
+    
+    
+            marker_7fe785f4f577befcbe731cda3f066b22.bindTooltip(
+                `<div>
+                     Belarus: 11 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_453d74231d9820c4eff19ee33cd70f63 = L.marker(
+                [60.1282, 18.6435],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_1381d11a2964157e7c96f73bba325361 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_453d74231d9820c4eff19ee33cd70f63.setIcon(icon_1381d11a2964157e7c96f73bba325361);
+        
+    
+        var popup_caf26f03ee6eda96667ad7df5592eaa1 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_880c94c0c32de92db53de748da50d4f0 = $(`<div id="html_880c94c0c32de92db53de748da50d4f0" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Sweden</h4>                 <p>10 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Sweden')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_caf26f03ee6eda96667ad7df5592eaa1.setContent(html_880c94c0c32de92db53de748da50d4f0);
+            
+        
+
+        marker_453d74231d9820c4eff19ee33cd70f63.bindPopup(popup_caf26f03ee6eda96667ad7df5592eaa1)
+        ;
+
+        
+    
+    
+            marker_453d74231d9820c4eff19ee33cd70f63.bindTooltip(
+                `<div>
+                     Sweden: 10 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b7d83b7043de8e5d765917d678cc520f = L.marker(
+                [12.8654, -85.2072],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_91730f4ed835d948fa412fbc5751fdd1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_b7d83b7043de8e5d765917d678cc520f.setIcon(icon_91730f4ed835d948fa412fbc5751fdd1);
+        
+    
+        var popup_08479e61707eafee3332bc6671017b18 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_c69be42ad10e97b7272a759330a55804 = $(`<div id="html_c69be42ad10e97b7272a759330a55804" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Nicaragua</h4>                 <p>10 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Nicaragua')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_08479e61707eafee3332bc6671017b18.setContent(html_c69be42ad10e97b7272a759330a55804);
+            
+        
+
+        marker_b7d83b7043de8e5d765917d678cc520f.bindPopup(popup_08479e61707eafee3332bc6671017b18)
+        ;
+
+        
+    
+    
+            marker_b7d83b7043de8e5d765917d678cc520f.bindTooltip(
+                `<div>
+                     Nicaragua: 10 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ff4280b892227c802a25651b5b37fe31 = L.marker(
+                [48.669, 19.699],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_766bf289dbae9e7c29ece68bb158c201 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_ff4280b892227c802a25651b5b37fe31.setIcon(icon_766bf289dbae9e7c29ece68bb158c201);
+        
+    
+        var popup_aa5634bc46d3d4992128c7b6775d497b = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_8f6d82d1c6dbd9e2e4070a7146f54fb2 = $(`<div id="html_8f6d82d1c6dbd9e2e4070a7146f54fb2" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Slovakia</h4>                 <p>10 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Slovakia')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_aa5634bc46d3d4992128c7b6775d497b.setContent(html_8f6d82d1c6dbd9e2e4070a7146f54fb2);
+            
+        
+
+        marker_ff4280b892227c802a25651b5b37fe31.bindPopup(popup_aa5634bc46d3d4992128c7b6775d497b)
+        ;
+
+        
+    
+    
+            marker_ff4280b892227c802a25651b5b37fe31.bindTooltip(
+                `<div>
+                     Slovakia: 10 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ade40e7944203c1e027e8af2515350fb = L.marker(
+                [18.7357, -70.1627],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_2cf86cec416934e4754964aa41411e86 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_ade40e7944203c1e027e8af2515350fb.setIcon(icon_2cf86cec416934e4754964aa41411e86);
+        
+    
+        var popup_b993fcf9885f3777520b1cbe5062f800 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_26585e14228e0a46a592c0c432296954 = $(`<div id="html_26585e14228e0a46a592c0c432296954" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Dominican Republic</h4>                 <p>10 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Dominican Republic')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_b993fcf9885f3777520b1cbe5062f800.setContent(html_26585e14228e0a46a592c0c432296954);
+            
+        
+
+        marker_ade40e7944203c1e027e8af2515350fb.bindPopup(popup_b993fcf9885f3777520b1cbe5062f800)
+        ;
+
+        
+    
+    
+            marker_ade40e7944203c1e027e8af2515350fb.bindTooltip(
+                `<div>
+                     Dominican Republic: 10 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fdf4e6a34cca53370877a47326e42f77 = L.marker(
+                [42.7339, 25.4858],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_17264ec2f67e05a2eb50d5bd1dd0d3e7 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_fdf4e6a34cca53370877a47326e42f77.setIcon(icon_17264ec2f67e05a2eb50d5bd1dd0d3e7);
+        
+    
+        var popup_26921f973e4f5064ae77803eb9de3ec7 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_478668cbd82a1d8811abfee30f5389b5 = $(`<div id="html_478668cbd82a1d8811abfee30f5389b5" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Bulgaria</h4>                 <p>10 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Bulgaria')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_26921f973e4f5064ae77803eb9de3ec7.setContent(html_478668cbd82a1d8811abfee30f5389b5);
+            
+        
+
+        marker_fdf4e6a34cca53370877a47326e42f77.bindPopup(popup_26921f973e4f5064ae77803eb9de3ec7)
+        ;
+
+        
+    
+    
+            marker_fdf4e6a34cca53370877a47326e42f77.bindTooltip(
+                `<div>
+                     Bulgaria: 10 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_18ed0266c9de9fcd0da472d4dc2c4f92 = L.marker(
+                [8.538, -80.7821],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_e8ef8a0d3125f86f9e721dee30a0507f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_18ed0266c9de9fcd0da472d4dc2c4f92.setIcon(icon_e8ef8a0d3125f86f9e721dee30a0507f);
+        
+    
+        var popup_02914c816089ba74dc34ccf841f87327 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_38cc6222f5eebf3cb51f18f2cf56c02a = $(`<div id="html_38cc6222f5eebf3cb51f18f2cf56c02a" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Panama</h4>                 <p>8 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Panama')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_02914c816089ba74dc34ccf841f87327.setContent(html_38cc6222f5eebf3cb51f18f2cf56c02a);
+            
+        
+
+        marker_18ed0266c9de9fcd0da472d4dc2c4f92.bindPopup(popup_02914c816089ba74dc34ccf841f87327)
+        ;
+
+        
+    
+    
+            marker_18ed0266c9de9fcd0da472d4dc2c4f92.bindTooltip(
+                `<div>
+                     Panama: 8 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2596c4b0c09f4787e1dd034bf593818d = L.marker(
+                [15.7835, -90.2308],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_a3aef14275fb2750c3e934688a614898 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_2596c4b0c09f4787e1dd034bf593818d.setIcon(icon_a3aef14275fb2750c3e934688a614898);
+        
+    
+        var popup_76041a52ed9596b308e43e5e79613be4 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_1dedad58d5bf6cd544c4a6a33b4ad674 = $(`<div id="html_1dedad58d5bf6cd544c4a6a33b4ad674" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>Guatemala</h4>                 <p>6 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('Guatemala')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_76041a52ed9596b308e43e5e79613be4.setContent(html_1dedad58d5bf6cd544c4a6a33b4ad674);
+            
+        
+
+        marker_2596c4b0c09f4787e1dd034bf593818d.bindPopup(popup_76041a52ed9596b308e43e5e79613be4)
+        ;
+
+        
+    
+    
+            marker_2596c4b0c09f4787e1dd034bf593818d.bindTooltip(
+                `<div>
+                     Guatemala: 6 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5079fc9d44f8c6973a3881d4b8187302 = L.marker(
+                [35.9078, 127.7669],
+                {}
+            ).addTo(map_a1f7ba042bada51548e2b394057d88b8);
+        
+    
+            var icon_1c8c9e096901fc335553917728caf4e8 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "orange", "prefix": "glyphicon"}
+            );
+            marker_5079fc9d44f8c6973a3881d4b8187302.setIcon(icon_1c8c9e096901fc335553917728caf4e8);
+        
+    
+        var popup_8d3f303c45156bd6426e66eb732c62b7 = L.popup({"maxWidth": 250});
+
+        
+            
+                var html_c89ded8f0f4bbabe2be68440e85f7478 = $(`<div id="html_c89ded8f0f4bbabe2be68440e85f7478" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px;">                 <h4>South Korea</h4>                 <p>1 All teams and leagues</p>                 <button onclick="window.parent.filterByCountry('South Korea')" class="btn btn-primary btn-sm">                     View Teams                 </button>             </div>             </div>`)[0];
+                popup_8d3f303c45156bd6426e66eb732c62b7.setContent(html_c89ded8f0f4bbabe2be68440e85f7478);
+            
+        
+
+        marker_5079fc9d44f8c6973a3881d4b8187302.bindPopup(popup_8d3f303c45156bd6426e66eb732c62b7)
+        ;
+
+        
+    
+    
+            marker_5079fc9d44f8c6973a3881d4b8187302.bindTooltip(
+                `<div>
+                     South Korea: 1 teams
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/a8ec3835-06f9-4aa5-b114-7f3da8e31cda/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/InPlayBasketballSourceFinder",
+    "appService.deploySubpath": "."
+}
