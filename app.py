@@ -64,13 +64,13 @@ def load_data():
         teams_data = df
 
         # Update global filter options
-        countries = sorted(teams_data['Country'].unique())
-        leagues = sorted(teams_data['League'].unique())
-        sports = sorted(teams_data['Sports'].unique())
+        countries = sorted(df['Country'].unique())
+        leagues = sorted(df['League'].unique())
+        sports = sorted(df['Sports'].unique())
 
         last_data_refresh = datetime.now()
         
-        logger.info(f"Successfully loaded {len(teams_data)} teams from {config.database.provider}")
+        logger.info(f"Successfully loaded {len(df)} teams from {config.database.provider}")
         return df
         
     except Exception as e:
@@ -80,9 +80,9 @@ def load_data():
             df = pd.read_excel("Basketball Sources Links.xlsx")
             df = df.fillna('')
             teams_data = df
-            countries = sorted(teams_data['Country'].unique())
-            leagues = sorted(teams_data['League'].unique())
-            sports = sorted(teams_data['Sports'].unique())
+            countries = sorted(df['Country'].unique())
+            leagues = sorted(df['League'].unique())
+            sports = sorted(df['Sports'].unique())
             last_data_refresh = datetime.now()
             logger.warning("Loaded fallback local data due to cloud provider error")
             return df
