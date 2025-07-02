@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ team.Team }} - Inplay Basketball Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ team.Team }}</li>
+            </ol>
+        </nav>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between">
+                <h4 class="mb-0">{{ team.Team }}</h4>
+                <span class="badge bg-light text-dark">{{ team.Sports }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h5 class="mb-0">Team Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Sport:</strong> {{ team.Sports }}</p>
+                                <p><strong>Country:</strong> {{ team.Country }}</p>
+                                <p><strong>League:</strong> {{ team.League }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h5 class="mb-0">Social Media</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-wrap">
+                                    {% if team.Twitter %}
+                                    <a href="{{ team.Twitter }}" target="_blank" class="btn btn-outline-primary me-2 mb-2">
+                                        <i class="bi bi-twitter"></i> Twitter
+                                    </a>
+                                    {% endif %}
+                                    
+                                    {% if team.Facebook %}
+                                    <a href="{{ team.Facebook }}" target="_blank" class="btn btn-outline-primary me-2 mb-2">
+                                        <i class="bi bi-facebook"></i> Facebook
+                                    </a>
+                                    {% endif %}
+                                    
+                                    {% if team.Instagram %}
+                                    <a href="{{ team.Instagram }}" target="_blank" class="btn btn-outline-primary me-2 mb-2">
+                                        <i class="bi bi-instagram"></i> Instagram
+                                    </a>
+                                    {% endif %}
+                                    
+                                    {% if team['Official Page'] %}
+                                    <a href="{{ team['Official Page'] }}" target="_blank" class="btn btn-outline-primary me-2 mb-2">
+                                        <i class="bi bi-globe"></i> Official Website
+                                    </a>
+                                    {% endif %}
+                                    
+                                    {% if team['Other Links'] %}
+                                    <a href="{{ team['Other Links'] }}" target="_blank" class="btn btn-outline-primary me-2 mb-2">
+                                        <i class="bi bi-link-45deg"></i> Other Resources
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">All Team Links</h5>
+                                <button id="open-all-links" class="btn btn-sm btn-primary" title="Open all team links in new tabs">
+                                    <i class="bi bi-box-arrow-up-right"></i> Open All Links
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-striped mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Platform</th>
+                                            <th>URL</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if team.Twitter %}
+                                        <tr>
+                                            <td><i class="bi bi-twitter text-primary"></i> Twitter</td>
+                                            <td>{{ team.Twitter }}</td>
+                                            <td>
+                                                <a href="{{ team.Twitter }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Visit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-url="{{ team.Twitter }}">
+                                                    <i class="bi bi-clipboard"></i> Copy
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if team.Facebook %}
+                                        <tr>
+                                            <td><i class="bi bi-facebook text-primary"></i> Facebook</td>
+                                            <td>{{ team.Facebook }}</td>
+                                            <td>
+                                                <a href="{{ team.Facebook }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Visit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-url="{{ team.Facebook }}">
+                                                    <i class="bi bi-clipboard"></i> Copy
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if team.Instagram %}
+                                        <tr>
+                                            <td><i class="bi bi-instagram text-primary"></i> Instagram</td>
+                                            <td>{{ team.Instagram }}</td>
+                                            <td>
+                                                <a href="{{ team.Instagram }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Visit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-url="{{ team.Instagram }}">
+                                                    <i class="bi bi-clipboard"></i> Copy
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if team['Official Page'] %}
+                                        <tr>
+                                            <td><i class="bi bi-globe text-primary"></i> Official Website</td>
+                                            <td>{{ team['Official Page'] }}</td>
+                                            <td>
+                                                <a href="{{ team['Official Page'] }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Visit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-url="{{ team['Official Page'] }}">
+                                                    <i class="bi bi-clipboard"></i> Copy
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if team['Other Links'] %}
+                                        <tr>
+                                            <td><i class="bi bi-link-45deg text-primary"></i> Other Resource</td>
+                                            <td>{{ team['Other Links'] }}</td>
+                                            <td>
+                                                <a href="{{ team['Other Links'] }}" target="_blank" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Visit
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-url="{{ team['Other Links'] }}">
+                                                    <i class="bi bi-clipboard"></i> Copy
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if not team.Twitter and not team.Facebook and not team.Instagram and not team['Official Page'] and not team['Other Links'] %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">No links available for this team</td>
+                                        </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Share Team</h5>
+            </div>
+            <div class="card-body">
+                <p>Share this team's information:</p>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="share-url" value="{{ request.url }}" readonly>
+                    <button class="btn btn-outline-primary" type="button" id="copy-url">
+                        <i class="bi bi-clipboard"></i>
+                    </button>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="mailto:?subject={{ team.Team }} - Basketball Team Info&body=Check out this basketball team: {{ request.url }}" class="btn btn-outline-primary">
+                        <i class="bi bi-envelope"></i> Email
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Similar Teams</h5>
+            </div>
+            <div class="card-body">
+                <div id="similar-teams-loading" class="text-center my-3">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading similar teams...</p>
+                </div>
+                <div id="similar-teams-container">
+                    <!-- Similar teams will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Copy URL functionality
+        $('#copy-url').click(function() {
+            const shareUrl = $('#share-url');
+            shareUrl.select();
+            document.execCommand('copy');
+            $(this).html('<i class="bi bi-check"></i>');
+            setTimeout(() => {
+                $(this).html('<i class="bi bi-clipboard"></i>');
+            }, 2000);
+        });
+        
+        // Open all links functionality
+        $('#open-all-links').click(function() {
+            // Store all available links in data attributes on the button
+            var $linkElements = $('a[href^="http"]');
+            var links = [];
+            
+            // Collect all unique links
+            $linkElements.each(function() {
+                var url = $(this).attr('href');
+                if (url && links.indexOf(url) === -1) {
+                    links.push(url);
+                }
+            });
+            
+            // Open each link in a new tab
+            links.forEach(function(link) {
+                window.open(link, '_blank');
+            });
+            
+            // Show success feedback
+            var $btn = $(this);
+            var originalHtml = $btn.html();
+            $btn.html('<i class="bi bi-check"></i> Opened!');
+            setTimeout(function() {
+                $btn.html(originalHtml);
+            }, 2000);
+        });
+        
+        // Copy link URLs
+        $('.copy-btn').click(function() {
+            const url = $(this).data('url');
+            navigator.clipboard.writeText(url).then(() => {
+                const originalHtml = $(this).html();
+                $(this).html('<i class="bi bi-check"></i> Copied!');
+                setTimeout(() => {
+                    $(this).html(originalHtml);
+                }, 2000);
+            });
+        });
+        
+        // Load similar teams (same country and league)
+        $.getJSON(`/api/teams?country={{ team.Country }}&league={{ team.League }}`, function(data) {
+            // Remove current team and take up to 5 similar teams
+            const similarTeams = data
+                .filter(t => t.Team !== "{{ team.Team }}")
+                .slice(0, 5);
+            
+            $('#similar-teams-loading').hide();
+            
+            if (similarTeams.length > 0) {
+                const container = $('#similar-teams-container');
+                
+                similarTeams.forEach(team => {
+                    const teamItem = `
+                        <div class="mb-2">
+                            <a href="/team/${encodeURIComponent(team.Team)}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2">
+                                        <i class="bi bi-arrow-right-circle text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">${team.Team}</div>
+                                        <div class="small text-muted">${team.Country}, ${team.League}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                    
+                    container.append(teamItem);
+                });
+            } else {
+                $('#similar-teams-container').html('<p class="text-muted">No similar teams found.</p>');
+            }
+        });
+    });
+</script>
+{% endblock %} 

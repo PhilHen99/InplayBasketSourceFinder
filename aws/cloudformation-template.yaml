@@ -1,0 +1,438 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Basketball Dashboard - ECS Fargate deployment with ALB'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    AllowedValues: [development, staging, production]
+    Description: Environment name
+  
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID for deployment
+  
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: List of subnet IDs (minimum 2 for ALB)
+  
+  DomainName:
+    Type: String
+    Default: ''
+    Description: Domain name for the application (optional)
+  
+  CertificateArn:
+    Type: String
+    Default: ''
+    Description: SSL Certificate ARN for HTTPS (optional)
+
+Resources:
+  # ECS Cluster
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub '${AWS::StackName}-cluster'
+      CapacityProviders:
+        - FARGATE
+        - FARGATE_SPOT
+      DefaultCapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Weight: 1
+        - CapacityProvider: FARGATE_SPOT
+          Weight: 4
+      ClusterSettings:
+        - Name: containerInsights
+          Value: enabled
+
+  # ECR Repository
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub '${AWS::StackName}-dashboard'
+      ImageTagMutability: MUTABLE
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "selection": {
+                  "tagStatus": "untagged",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 7
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 2,
+                "selection": {
+                  "tagStatus": "tagged",
+                  "countType": "imageCountMoreThan",
+                  "countNumber": 10
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+
+  # CloudWatch Log Group
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/ecs/${AWS::StackName}-dashboard'
+      RetentionInDays: 7
+
+  # IAM Role for ECS Task Execution
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-task-execution-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: SecretsManagerAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${AWS::StackName}/*'
+
+  # IAM Role for ECS Task
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AWS::StackName}-task-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CloudWatchLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: '*'
+        - PolicyName: SecretsManagerAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${AWS::StackName}/*'
+
+  # Security Group for ALB
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub '${AWS::StackName}-alb-sg'
+      GroupDescription: Security group for Application Load Balancer
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: HTTP access
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: HTTPS access
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+          Description: All outbound traffic
+
+  # Security Group for ECS Tasks
+  ECSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub '${AWS::StackName}-ecs-sg'
+      GroupDescription: Security group for ECS tasks
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+          Description: Access from ALB
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+          Description: All outbound traffic
+
+  # Application Load Balancer
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub '${AWS::StackName}-alb'
+      Scheme: internet-facing
+      Type: application
+      Subnets: !Ref SubnetIds
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-alb'
+
+  # Target Group
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub '${AWS::StackName}-tg'
+      Port: 5000
+      Protocol: HTTP
+      VpcId: !Ref VpcId
+      TargetType: ip
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 3
+      HealthCheckProtocol: HTTP
+      Matcher:
+        HttpCode: 200
+
+  # HTTP Listener (redirects to HTTPS if certificate provided)
+  HTTPListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - !If
+          - HasCertificate
+          - Type: redirect
+            RedirectConfig:
+              Protocol: HTTPS
+              Port: 443
+              StatusCode: HTTP_301
+          - Type: forward
+            TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  # HTTPS Listener (only if certificate provided)
+  HTTPSListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: HasCertificate
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref CertificateArn
+
+  # ECS Task Definition
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub '${AWS::StackName}-dashboard'
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: 256
+      Memory: 512
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ContainerDefinitions:
+        - Name: basketball-dashboard
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepository}:latest'
+          PortMappings:
+            - ContainerPort: 5000
+              Protocol: tcp
+          Essential: true
+          Environment:
+            - Name: ENVIRONMENT
+              Value: !Ref Environment
+            - Name: FLASK_DEBUG
+              Value: 'false'
+            - Name: HOST
+              Value: '0.0.0.0'
+            - Name: PORT
+              Value: '5000'
+            - Name: LOG_LEVEL
+              Value: INFO
+            - Name: DATA_PROVIDER
+              Value: sharepoint
+            - Name: DATA_REFRESH_INTERVAL
+              Value: '1440'
+            - Name: AWS_REGION
+              Value: !Ref 'AWS::Region'
+          Secrets:
+            - Name: SECRET_KEY
+              ValueFrom: !Ref SecretKeySecret
+            - Name: SHAREPOINT_SITE_URL
+              ValueFrom: !Sub '${SharePointConfigSecret}:site_url::'
+            - Name: SHAREPOINT_FILE_PATH
+              ValueFrom: !Sub '${SharePointConfigSecret}:file_path::'
+            - Name: SHAREPOINT_CLIENT_ID
+              ValueFrom: !Sub '${SharePointConfigSecret}:client_id::'
+            - Name: SHAREPOINT_CLIENT_SECRET
+              ValueFrom: !Sub '${SharePointConfigSecret}:client_secret::'
+            - Name: SHAREPOINT_TENANT_ID
+              ValueFrom: !Sub '${SharePointConfigSecret}:tenant_id::'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: ecs
+          HealthCheck:
+            Command:
+              - CMD-SHELL
+              - 'curl -f http://localhost:5000/health || exit 1'
+            Interval: 30
+            Timeout: 5
+            Retries: 3
+            StartPeriod: 60
+
+  # ECS Service
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: HTTPListener
+    Properties:
+      ServiceName: !Sub '${AWS::StackName}-service'
+      Cluster: !Ref ECSCluster
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: FARGATE
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          SecurityGroups:
+            - !Ref ECSSecurityGroup
+          Subnets: !Ref SubnetIds
+          AssignPublicIp: ENABLED
+      LoadBalancers:
+        - ContainerName: basketball-dashboard
+          ContainerPort: 5000
+          TargetGroupArn: !Ref TargetGroup
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 50
+      HealthCheckGracePeriodSeconds: 60
+
+  # Auto Scaling Target
+  AutoScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: 2
+      MinCapacity: 1
+      ResourceId: !Sub 'service/${ECSCluster}/${ECSService.Name}'
+      RoleARN: !Sub 'arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService'
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  # Auto Scaling Policy - CPU
+  AutoScalingPolicyCPU:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub '${AWS::StackName}-cpu-scaling-policy'
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref AutoScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        TargetValue: 80
+
+  # Auto Scaling Policy - Memory
+  AutoScalingPolicyMemory:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub '${AWS::StackName}-memory-scaling-policy'
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref AutoScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageMemoryUtilization
+        TargetValue: 80
+
+  # Secrets Manager - Secret Key
+  SecretKeySecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub '${AWS::StackName}/secret-key'
+      Description: Flask application secret key
+      GenerateSecretString:
+        SecretStringTemplate: '{}'
+        GenerateStringKey: 'secret_key'
+        PasswordLength: 64
+        ExcludeCharacters: '"@/\'
+
+  # Secrets Manager - SharePoint Configuration
+  SharePointConfigSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub '${AWS::StackName}/sharepoint-config'
+      Description: SharePoint integration configuration
+      SecretString: !Sub |
+        {
+          "site_url": "REPLACE_WITH_YOUR_SHAREPOINT_SITE_URL",
+          "file_path": "REPLACE_WITH_YOUR_FILE_PATH",
+          "client_id": "REPLACE_WITH_YOUR_CLIENT_ID",
+          "client_secret": "REPLACE_WITH_YOUR_CLIENT_SECRET",
+          "tenant_id": "REPLACE_WITH_YOUR_TENANT_ID"
+        }
+
+Conditions:
+  HasCertificate: !Not [!Equals [!Ref CertificateArn, '']]
+  HasDomainName: !Not [!Equals [!Ref DomainName, '']]
+
+Outputs:
+  LoadBalancerDNS:
+    Description: DNS name of the load balancer
+    Value: !GetAtt ApplicationLoadBalancer.DNSName
+    Export:
+      Name: !Sub '${AWS::StackName}-LoadBalancerDNS'
+  
+  LoadBalancerURL:
+    Description: URL of the application
+    Value: !Sub
+      - '${Protocol}://${DNSName}'
+      - Protocol: !If [HasCertificate, 'https', 'http']
+        DNSName: !GetAtt ApplicationLoadBalancer.DNSName
+    Export:
+      Name: !Sub '${AWS::StackName}-LoadBalancerURL'
+  
+  ECRRepository:
+    Description: ECR Repository URI
+    Value: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepository}'
+    Export:
+      Name: !Sub '${AWS::StackName}-ECRRepository'
+  
+  ECSCluster:
+    Description: ECS Cluster Name
+    Value: !Ref ECSCluster
+    Export:
+      Name: !Sub '${AWS::StackName}-ECSCluster'
+  
+  ECSService:
+    Description: ECS Service Name
+    Value: !Ref ECSService
+    Export:
+      Name: !Sub '${AWS::StackName}-ECSService' 

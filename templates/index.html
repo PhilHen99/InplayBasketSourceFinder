@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+
+{% block title %}Inplay Basketball Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Filters</h5>
+            </div>
+            <div class="card-body">
+                <form id="filter-form" onsubmit="return false;">
+                    <div class="mb-3">
+                        <label for="search" class="form-label">Search Teams</label>
+                        <input type="text" class="form-control" id="search" placeholder="Enter team names (comma-separated)...">
+                        <small class="form-text text-muted">You can search for multiple teams like this: Duke, Kentucky, UCONN</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="sport" class="form-label">Sport</label>
+                        <select class="form-select" id="sport">
+                            <option value="">All Sports</option>
+                            {% for sport in sports %}
+                            <option value="{{ sport }}">{{ sport }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <select class="form-select" id="country">
+                            <option value="">All Countries</option>
+                            {% for country in countries %}
+                            <option value="{{ country }}">{{ country }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="league" class="form-label">League</label>
+                        <select class="form-select" id="league">
+                            <option value="">All Leagues</option>
+                            {% for league in leagues %}
+                            <option value="{{ league }}">{{ league }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" id="gender">
+                            <option value="">All Genders</option>
+                            <option value="men">Men's Basketball</option>
+                            <option value="women">Women's Basketball</option>
+                        </select>
+                        <small class="form-text text-muted">🔵 Men's teams • 🌸 Women's teams</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Social Media Presence</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="has-twitter">
+                            <label class="form-check-label" for="has-twitter">
+                                Has Twitter
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="has-facebook">
+                            <label class="form-check-label" for="has-facebook">
+                                Has Facebook
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="has-instagram">
+                            <label class="form-check-label" for="has-instagram">
+                                Has Instagram
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="apply-filters" class="btn btn-primary w-100">Apply Filters</button>
+                    <button type="button" id="reset-filters" class="btn btn-outline-secondary w-100 mt-2">Reset</button>
+                </form>
+                
+                <hr>
+                
+                <div class="d-grid">
+                    <a href="{{ url_for('update_database') }}" class="btn btn-success">
+                        <i class="bi bi-upload"></i> Update Database
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <!-- Interactive Map Section -->
+        <div class="card mb-4" id="map-section">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Teams by Location</h5>
+                <button id="toggle-map" class="btn btn-sm btn-light">
+                    <i class="bi bi-chevron-up"></i> Hide Map
+                </button>
+            </div>
+            <div class="card-body" id="map-container">
+                <div class="ratio ratio-21x9">
+                    <iframe src="{{ url_for('static', filename='map.html') }}" title="Teams Map" id="map-iframe"></iframe>
+                </div>
+                <div class="text-end mt-2">
+                    <a href="{{ url_for('map_view') }}" class="btn btn-outline-primary btn-sm">
+                        Full Screen Map <i class="bi bi-arrows-fullscreen"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Teams List Section -->
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">All Teams</h5>
+                <span id="results-count" class="badge bg-light text-dark">0 teams</span>
+            </div>
+            <div class="card-body">
+                <div id="loading" class="text-center my-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading teams...</p>
+                </div>
+                
+                <div id="teams-container" class="row row-cols-1 row-cols-md-3 g-4">
+                    <!-- Teams will be loaded here dynamically -->
+                </div>
+                
+                <div id="no-results" class="alert alert-info my-3 d-none">
+                    No teams found matching your criteria.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Load teams 
+        loadTeams();
+        
+        // Event listeners for the filter buttons
+        $('#apply-filters').click(function() {
+            loadTeams();
+        });
+        
+        // Event delegation for Open All Links buttons
+        $(document).on('click', '.open-all-links', function() {
+            const teamId = $(this).data('team-id');
+            const $links = $(`#links-${teamId}`).find('a');
+            
+            $links.each(function() {
+                window.open($(this).attr('href'), '_blank');
+            });
+            
+            // Show success feedback
+            const $btn = $(this);
+            const originalHtml = $btn.html();
+            $btn.html('<i class="bi bi-check"></i> Opened!');
+            setTimeout(function() {
+                $btn.html(originalHtml);
+            }, 2000);
+        });
+        
+        $('#reset-filters').click(function() {
+            $('#search').val('');
+            $('#sport').val('');
+            $('#country').val('');
+            $('#league').val('');
+            $('#gender').val('');
+            $('#has-twitter').prop('checked', false);
+            $('#has-facebook').prop('checked', false);
+            $('#has-instagram').prop('checked', false);
+            loadTeams();
+        });
+
+        // here's to handle the enter key on the filter form
+        $('#filter-form').on('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                $('#apply-filters').click();
+                return false;
+            }
+        });
+        
+        // Toggle map visibility
+        $('#toggle-map').click(function() {
+            $('#map-container').slideToggle();
+            
+            if ($(this).find('i').hasClass('bi-chevron-up')) {
+                $(this).html('<i class="bi bi-chevron-down"></i> Show Map');
+            } else {
+                $(this).html('<i class="bi bi-chevron-up"></i> Hide Map');
+            }
+        });
+
+        // Function to filter by country (used by the map)
+        window.filterByCountry = function(country) {
+            $('#country').val(country);
+            $('#apply-filters').click();
+        };
+
+        // Check URL parameters for filters on page load
+        function applyUrlFilters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('country')) {
+                $('#country').val(urlParams.get('country'));
+            }
+            
+            if (urlParams.has('league')) {
+                $('#league').val(urlParams.get('league'));
+            }
+            
+            if (urlParams.has('sport')) {
+                $('#sport').val(urlParams.get('sport'));
+            }
+            
+            if (urlParams.has('search')) {
+                $('#search').val(urlParams.get('search'));
+            }
+            
+            if (urlParams.has('gender')) {
+                $('#gender').val(urlParams.get('gender'));
+            }
+            
+            // If we have any parameters, apply the filters
+            if (urlParams.toString()) {
+                loadTeams();
+            }
+        }
+        
+        // Apply URL filters on page load
+        applyUrlFilters();
+        
+        // Funct to load teams based on filters
+        function loadTeams() {
+            // Show loading indicator
+            $('#loading').removeClass('d-none');
+            $('#teams-container').addClass('d-none');
+            $('#no-results').addClass('d-none');
+            
+            // Get all filter values
+            const search = $('#search').val();
+            const sport = $('#sport').val();
+            const country = $('#country').val();
+            const league = $('#league').val();
+            const gender = $('#gender').val();
+            const hasTwitter = $('#has-twitter').is(':checked');
+            const hasFacebook = $('#has-facebook').is(':checked');
+            const hasInstagram = $('#has-instagram').is(':checked');
+            
+            // Build query parameters
+            let queryParams = new URLSearchParams();
+            if (search) queryParams.append('search', search);
+            if (sport) queryParams.append('sport', sport);
+            if (country) queryParams.append('country', country);
+            if (league) queryParams.append('league', league);
+            if (gender) queryParams.append('gender', gender);
+            
+            // Update URL with filters without reloading the page
+            window.history.replaceState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
+            
+            // Fetch teams from API
+            $.getJSON(`/api/teams?${queryParams.toString()}`, function(data) {
+                // Filter for gender based on league names
+                if (gender === 'men') {
+                    data = data.filter(team => {
+                        const leagueName = (team.League || '').toLowerCase();
+                        return leagueName.includes('ncaa') && !leagueName.includes('women');
+                    });
+                } else if (gender === 'women') {
+                    data = data.filter(team => {
+                        const leagueName = (team.League || '').toLowerCase();
+                        return leagueName.includes('ncaa') && leagueName.includes('women');
+                    });
+                }
+                
+                // Filter for social media if needed
+                if (hasTwitter) {
+                    data = data.filter(team => team.Twitter && team.Twitter.trim() !== '');
+                }
+                if (hasFacebook) {
+                    data = data.filter(team => team.Facebook && team.Facebook.trim() !== '');
+                }
+                if (hasInstagram) {
+                    data = data.filter(team => team.Instagram && team.Instagram.trim() !== '');
+                }
+                
+                // Update results count
+                $('#results-count').text(`${data.length} teams`);
+                
+                // Hide loading indicator
+                $('#loading').addClass('d-none');
+                
+                // Show teams or no results message
+                if (data.length > 0) {
+                    $('#teams-container').removeClass('d-none');
+                    renderTeams(data);
+                } else {
+                    $('#no-results').removeClass('d-none');
+                }
+            });
+        }
+        
+        // Function to render teams to the container
+        function renderTeams(teams) {
+            const container = $('#teams-container');
+            container.empty();
+            
+            teams.forEach(team => {
+                let socialLinks = '';
+                let allLinksHtml = '';
+                
+                // Determine gender and color theme
+                const leagueName = (team.League || '').toLowerCase();
+                const isWomens = leagueName.includes('ncaa') && leagueName.includes('women');
+                const isMens = leagueName.includes('ncaa') && !leagueName.includes('women');
+                
+                // Color themes: pastel blue for men, pastel pink for women
+                let cardHeaderClass = 'bg-light';
+                let genderBadge = '';
+                let genderIcon = '';
+                
+                if (isWomens) {
+                    cardHeaderClass = 'bg-light border-start border-5';
+                    genderBadge = '<span class="badge" style="background-color: #FFB6C1; color: #8B0045;">👩 Women\'s</span>';
+                    genderIcon = '🌸';
+                } else if (isMens) {
+                    cardHeaderClass = 'bg-light border-start border-5';
+                    genderBadge = '<span class="badge" style="background-color: #ADD8E6; color: #1E3A8A;">👨 Men\'s</span>';
+                    genderIcon = '🔵';
+                }
+                
+                if (team.Twitter && team.Twitter.trim() !== '') {
+                    socialLinks += `<a href="${team.Twitter}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-twitter"></i></a>`;
+                    allLinksHtml += `<li class="list-group-item"><i class="bi bi-twitter text-primary"></i> <a href="${team.Twitter}" target="_blank">Twitter</a></li>`;
+                }
+                
+                if (team.Facebook && team.Facebook.trim() !== '') {
+                    socialLinks += `<a href="${team.Facebook}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-facebook"></i></a>`;
+                    allLinksHtml += `<li class="list-group-item"><i class="bi bi-facebook text-primary"></i> <a href="${team.Facebook}" target="_blank">Facebook</a></li>`;
+                }
+                
+                if (team.Instagram && team.Instagram.trim() !== '') {
+                    socialLinks += `<a href="${team.Instagram}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-instagram"></i></a>`;
+                    allLinksHtml += `<li class="list-group-item"><i class="bi bi-instagram text-primary"></i> <a href="${team.Instagram}" target="_blank">Instagram</a></li>`;
+                }
+
+                if (team['Official Page'] && team['Official Page'].trim() !== '') {
+                    socialLinks += `<a href="${team['Official Page']}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-globe"></i></a>`;
+                    allLinksHtml += `<li class="list-group-item"><i class="bi bi-globe text-primary"></i> <a href="${team['Official Page']}" target="_blank">Official Website</a></li>`;
+                }
+
+                if (team['Other Links'] && team['Other Links'].trim() !== '') {
+                    socialLinks += `<a href="${team['Other Links']}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-link"></i></a>`;
+                    allLinksHtml += `<li class="list-group-item"><i class="bi bi-link text-primary"></i> <a href="${team['Other Links']}" target="_blank">Other Link</a></li>`;
+                }
+
+                // Add border color based on gender
+                let cardStyle = '';
+                if (isWomens) {
+                    cardStyle = 'style="border-left: 5px solid #FFB6C1;"';
+                } else if (isMens) {
+                    cardStyle = 'style="border-left: 5px solid #ADD8E6;"';
+                }
+
+                const teamCard = `
+                    <div class="col">
+                        <div class="card h-100" ${cardStyle}>
+                            <div class="card-header ${cardHeaderClass}">
+                                <h5 class="card-title mb-0">${genderIcon} ${team.Team}</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <span class="badge bg-secondary">${team.Country}</span>
+                                    <span class="badge bg-info text-dark">${team.League}</span>
+                                    <span class="badge bg-success">${team.Sports}</span>
+                                    ${genderBadge}
+                                </p>
+                                <div class="social-links text-center mb-3">
+                                    ${socialLinks}
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-sm open-all-links" data-team-id="${teams.indexOf(team)}">
+                                        <i class="bi bi-box-arrow-up-right"></i> Open All Links
+                                    </button>
+                                    <button class="btn btn-sm toggle-links ms-2" data-bs-toggle="collapse" data-bs-target="#links-${teams.indexOf(team)}">
+                                        <i class="bi bi-list"></i> Show Links
+                                    </button>
+                                </div>
+                                <div class="collapse mt-3" id="links-${teams.indexOf(team)}">
+                                    <ul class="list-group list-group-flush">
+                                        ${allLinksHtml || '<li class="list-group-item text-muted">No links available</li>'}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end bg-light">
+                                <a href="/team/${encodeURIComponent(team.Team)}" class="btn btn-primary">Team Details</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.append(teamCard);
+            });
+        }
+    });
+</script>
+{% endblock %} 

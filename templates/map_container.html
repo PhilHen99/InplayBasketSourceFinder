@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Map View - Basketball Teams Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Map View</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Teams by Country</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">This map shows the distribution of basketball teams across different countries. Click on a marker to see details about teams in each country.</p>
+                
+                <div class="ratio ratio-16x9">
+                    <iframe src="{{ url_for('static', filename='map.html') }}" title="Teams Map"></iframe>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i> 
+                        Click on a country's marker to see details about teams in that region. You can also zoom in/out and drag to explore the map.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
