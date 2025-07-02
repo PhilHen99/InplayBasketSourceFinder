@@ -282,64 +282,6 @@ def map_view():
     
     return render_template('map_container.html')
 
-@app.route('/api/refresh-data', methods=['POST'])
-def refresh_data():
-    """API endpoint to manually refresh data"""
-    try:
-        load_data()
-        generate_map()
-        return jsonify({
-            'success': True,
-            'message': 'Data refreshed successfully',
-            'timestamp': last_data_refresh.isoformat(),
-            'teams_count': len(teams_data)
-        })
-    except Exception as e:
-        logger.error(f"Manual data refresh failed: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/update-database', methods=['GET', 'POST'])
-def update_database():
-    """Legacy endpoint for local file uploads (fallback only)"""
-    if config.database.provider != 'local':
-        flash('Database updates are managed through cloud provider. Contact administrator.', 'info')
-        return redirect(url_for('index'))
-    
-    if request.method == 'POST':
-        # Check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part', 'danger')
-            return redirect(request.url)
-            
-        file = request.files['file']
-        
-        # If user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file', 'danger')
-            return redirect(request.url)
-            
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            # Save as Basketball Sources Links.xlsx to overwrite the existing file
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], "Basketball Sources Links.xlsx"))
-            
-            # Reload the data
-            load_data()
-            
-            # Generate new map with updated data
-            generate_map()
-            
-            flash('Database updated successfully', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('Invalid file type. Please upload an Excel file (.xlsx or .xls)', 'danger')
-            
-    return render_template('update_database.html')
-
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404

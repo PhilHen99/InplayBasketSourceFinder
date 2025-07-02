@@ -21,6 +21,12 @@ try:
 except ImportError as e:
     logging.warning(f"Some cloud dependencies not available: {e}")
 
+# Make sure Credentials is always available
+try:
+    from google.oauth2.service_account import Credentials
+except ImportError:
+    Credentials = None
+
 class DataIntegrationService:
     """
     Secure data integration service supporting multiple cloud providers
@@ -106,11 +112,18 @@ class DataIntegrationService:
         - credentials_path: Path to service account JSON file
         """
         try:
+            import requests
+            from google.oauth2.service_account import Credentials
+            from google.auth.transport.requests import Request
+            
             # Authenticate with Google Drive
             credentials = Credentials.from_service_account_file(
                 config['credentials_path'],
                 scopes=['https://www.googleapis.com/auth/drive.readonly']
             )
+            
+            # Refresh credentials to get token
+            credentials.refresh(Request())
             
             # Download file
             drive_url = f"https://www.googleapis.com/drive/v3/files/{config['file_id']}?alt=media"
@@ -255,10 +268,14 @@ class DataIntegrationService:
                 
             elif provider == 'google_drive':
                 # Test Google Drive connection
+                import requests
+                from google.oauth2.service_account import Credentials
+                from google.auth.transport.requests import Request
                 credentials = Credentials.from_service_account_file(
                     config['credentials_path'],
                     scopes=['https://www.googleapis.com/auth/drive.readonly']
                 )
+                credentials.refresh(Request())
                 return credentials is not None
                 
             elif provider == 'aws_s3':

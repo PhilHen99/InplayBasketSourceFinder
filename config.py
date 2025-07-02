@@ -10,8 +10,8 @@ load_dotenv()
 @dataclass
 class DatabaseConfig:
     """Database configuration settings"""
-    provider: str = "local"  # local, sharepoint, google_drive, aws_s3, azure_files
-    refresh_interval_minutes: int = 60
+    provider: str = "google_drive"  # Only allow google_drive
+    refresh_interval_minutes: int = 5760  
     config: Dict[str, Any] = None
     
     def __post_init__(self):
@@ -62,7 +62,7 @@ class AppConfig:
     
     def _get_database_config(self) -> DatabaseConfig:
         """Get database configuration based on environment variables"""
-        provider = os.getenv('DATA_PROVIDER', 'local')
+        provider = os.getenv('DATA_PROVIDER', 'google_drive')
         
         config = {}
         
@@ -76,8 +76,8 @@ class AppConfig:
             }
         elif provider == 'google_drive':
             config = {
-                'file_id': os.getenv('GOOGLE_DRIVE_FILE_ID'),
-                'credentials_path': os.getenv('GOOGLE_CREDENTIALS_PATH', 'credentials.json')
+                'file_id': '1PjjPUPGodLjFhdE_3RxF9rMaLtWrGwPC',
+                'credentials_path': 'credentials.json'
             }
         elif provider == 'aws_s3':
             config = {
@@ -97,7 +97,7 @@ class AppConfig:
         
         return DatabaseConfig(
             provider=provider,
-            refresh_interval_minutes=int(os.getenv('DATA_REFRESH_INTERVAL', 60)),
+            refresh_interval_minutes=int(os.getenv('DATA_REFRESH_INTERVAL', 5760)),
             config=config
         )
     

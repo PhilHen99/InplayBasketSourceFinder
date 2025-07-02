@@ -33,7 +33,7 @@ def main():
     
     # Basic Flask settings
     env_vars = {
-        'SECRET_KEY': 'generate-a-secure-random-key-here-change-this',
+        'SECRET_KEY': '1PjjPUPGodLjFhdE_3RxF9rMaLtWrGwPC',
         'FLASK_DEBUG': 'false',
         'ENVIRONMENT': 'production',
         'HOST': '0.0.0.0',
